@@ -101,7 +101,7 @@ Resources
 
 ---
 
-Design Detials so far...
+Design Details so far...
 * Colour-coded tags for question types
 * Generous spacing in keeping this a gentle, mindful app, not a productivity tool
 * SF Symbols for some generic icons (checkmark, info, dots)
