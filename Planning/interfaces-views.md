@@ -107,3 +107,13 @@ Design Detials so far...
 * SF Symbols for some generic icons (checkmark, info, dots)
 * Custom icons / royalty free graphics for question topics 
 * Planning to use NavigationStack in SwiftUI for clean transitions
+
+
+## Future Screens
+
+* Daily Reminder Setup Screen
+* Affirmations Screen
+* Export / Backup Screen, for saving survey history (JSON or PDF)
+* Onboarding Tips Screen, optional walkthrough for first-time users
+* Custom Question Builder, considering this, not sure
+* Streak Tracker / Calendar View, visual motivation for consistent check-ins
