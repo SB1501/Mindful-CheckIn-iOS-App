@@ -1,6 +1,3 @@
-// SB - sampleQuestions
-// This file is a JSON file with a record for each question. I am still tweaking this as I build out the data model...
-
 [
   {
     "id": "f1a1b2c3-d4e5-6789-aaaa-bbbbbbbbbbbb",
