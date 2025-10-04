@@ -1,0 +1,304 @@
+// SB - sampleQuestions
+// This file is a JSON file with a record for each question. I am still tweaking this as I build out the data model...
+
+[
+  {
+    "id": "f1a1b2c3-d4e5-6789-aaaa-bbbbbbbbbbbb",
+    "title": "How much sleep have you had?",
+    "topic": "sleep",
+    "inputType": "buttonGroup",
+    "resourceID": "11111111-1111-1111-1111-111111111111",
+    "isEnabled": true,
+    "backgroundColorName": "#D8CDEA",
+    "backgroundImageName": null,
+    "options": ["None", "Low", "Some", "Plenty"]
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aaab-bbbbbbbbbbbb",
+    "title": "Have you had enough water?",
+    "topic": "hydration",
+    "inputType": "buttonGroup",
+    "resourceID": "11111111-1111-1111-1111-111111111112",
+    "isEnabled": true,
+    "backgroundColorName": "#B3E5FC",
+    "backgroundImageName": null,
+    "options": ["None", "Low", "Some", "Plenty"]
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aaac-bbbbbbbbbbbb",
+    "title": "How much have you eaten?",
+    "topic": "food",
+    "inputType": "buttonGroup",
+    "resourceID": "11111111-1111-1111-1111-111111111113",
+    "isEnabled": true,
+    "backgroundColorName": "#FAD4B0",
+    "backgroundImageName": null,
+    "options": ["None", "Low", "Some", "Plenty"]
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aaad-bbbbbbbbbbbb",
+    "title": "How is your caffeine intake today?",
+    "topic": "caffeine",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111114",
+    "isEnabled": true,
+    "backgroundColorName": "#DCC5B2",
+    "backgroundImageName": null,
+    "scoring": {
+      "flaggedMaxScale": 4,
+      "positiveMinScale": 2,
+      "higherIsBetter": false
+    }
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aaae-bbbbbbbbbbbb",
+    "title": "How is your sugar intake today?",
+    "topic": "sugar",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111115",
+    "isEnabled": true,
+    "backgroundColorName": "#F8F6F0",
+    "backgroundImageName": null,
+    "scoring": {
+      "flaggedMaxScale": 4,
+      "positiveMinScale": 2,
+      "higherIsBetter": false
+    }
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aaaf-bbbbbbbbbbbb",
+    "title": "Have you had time to rest today?",
+    "topic": "rest",
+    "inputType": "buttonGroup",
+    "resourceID": "11111111-1111-1111-1111-111111111116",
+    "isEnabled": true,
+    "backgroundColorName": "#F6D1C1",
+    "backgroundImageName": null,
+    "options": ["None", "Low", "Some", "Plenty"]
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aaba-bbbbbbbbbbbb",
+    "title": "Have you taken care of your hygiene today?",
+    "topic": "hygiene",
+    "inputType": "buttonGroup",
+    "resourceID": "11111111-1111-1111-1111-111111111117",
+    "isEnabled": true,
+    "backgroundColorName": "#D6EAF8",
+    "backgroundImageName": null,
+    "options": ["None", "Low", "Some", "Plenty"]
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aabb-bbbbbbbbbbbb",
+    "title": "How physically strained do you feel?",
+    "topic": "strain",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111118",
+    "isEnabled": true,
+    "backgroundColorName": "#F2B5A0",
+    "backgroundImageName": null
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aabc-bbbbbbbbbbbb",
+    "title": "How comfortable is your clothing?",
+    "topic": "clothing",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111119",
+    "isEnabled": true,
+    "backgroundColorName": "#D8CFC4",
+    "backgroundImageName": null
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aabd-bbbbbbbbbbbb",
+    "title": "How comfortable do your eyes feel?",
+    "topic": "eyes",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111120",
+    "isEnabled": true,
+    "backgroundColorName": "#D0F0E0",
+    "backgroundImageName": null
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aabe-bbbbbbbbbbbb",
+    "title": "How comfortable is the temperature around you?",
+    "topic": "temperature",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111121",
+    "isEnabled": true,
+    "backgroundColorName": "#FFE4C4",
+    "backgroundImageName": null
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aabf-bbbbbbbbbbbb",
+    "title": "How comfortable is the lighting?",
+    "topic": "lighting",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111122",
+    "isEnabled": true,
+    "backgroundColorName": "#FFF5D7",
+    "backgroundImageName": null
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aaca-bbbbbbbbbbbb",
+    "title": "How comfortable are surrounding sounds?",
+    "topic": "sound",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111123",
+    "isEnabled": true,
+    "backgroundColorName": "#EAEAEA",
+    "backgroundImageName": null
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aacb-bbbbbbbbbbbb",
+    "title": "Have you socialised recently?",
+    "topic": "socialising",
+    "inputType": "buttonGroup",
+    "resourceID": "11111111-1111-1111-1111-111111111124",
+    "isEnabled": true,
+    "backgroundColorName": "#FFD6C0",
+    "backgroundImageName": null,
+    "options": ["None", "Low", "Some", "Plenty"]
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aacc-bbbbbbbbbbbb",
+    "title": "Have you been outdoors lately?",
+    "topic": "outdoors",
+    "inputType": "buttonGroup",
+    "resourceID": "11111111-1111-1111-1111-111111111125",
+    "isEnabled": true,
+    "backgroundColorName": "#C8E6C9",
+    "backgroundImageName": null,
+    "options": ["None", "Low", "Some", "Plenty"]
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aacd-bbbbbbbbbbbb",
+    "title": "How tidy is your space?",
+    "topic": "space",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111126",
+    "isEnabled": true,
+    "backgroundColorName": "#DADADA",
+    "backgroundImageName": null
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aace-bbbbbbbbbbbb",
+    "title": "How balanced is your screen time today?",
+    "topic": "screenTime",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111127",
+    "isEnabled": true,
+    "backgroundColorName": "#D0E6F7",
+    "backgroundImageName": null
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aacf-bbbbbbbbbbbb",
+    "title": "How tense does your body feel?",
+    "topic": "tension",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111128",
+    "isEnabled": true,
+    "backgroundColorName": "#D7B9C5",
+    "backgroundImageName": null
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aada-bbbbbbbbbbbb",
+    "title": "How steady is your breathing right now?",
+    "topic": "breathing",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111129",
+    "isEnabled": true,
+    "backgroundColorName": "#CDEDEB",
+    "backgroundImageName": null
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aadb-bbbbbbbbbbbb",
+    "title": "How calm does your mind feel?",
+    "topic": "mentalBusy",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111130",
+    "isEnabled": true,
+    "backgroundColorName": "#E3D7F1",
+    "backgroundImageName": null
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aadc-bbbbbbbbbbbb",
+    "title": "How manageable is your task load?",
+    "topic": "taskLoad",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111131",
+    "isEnabled": true,
+    "backgroundColorName": "#E8DCC3",
+    "backgroundImageName": null
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aadd-bbbbbbbbbbbb",
+    "title": "Have you taken a mental break?",
+    "topic": "mentalBreak",
+    "inputType": "buttonGroup",
+    "resourceID": "11111111-1111-1111-1111-111111111132",
+    "isEnabled": true,
+    "backgroundColorName": "#E6DAF0",
+    "backgroundImageName": null,
+    "options": ["None", "Low", "Some", "Plenty"]
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aade-bbbbbbbbbbbb",
+    "title": "How easy is it to concentrate today?",
+    "topic": "focus",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111133",
+    "isEnabled": true,
+    "backgroundColorName": "#B2DFDB",
+    "backgroundImageName": null
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aadf-bbbbbbbbbbbb",
+    "title": "How directly are you facing important tasks?",
+    "topic": "avoidance",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111134",
+    "isEnabled": true,
+    "backgroundColorName": "#E0D6EB",
+    "backgroundImageName": null
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aaea-bbbbbbbbbbbb",
+    "title": "Do you feel motivated right now?",
+    "topic": "motivation",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111135",
+    "isEnabled": true,
+    "backgroundColorName": "#FFE0B2",
+    "backgroundImageName": null
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aaeb-bbbbbbbbbbbb",
+    "title": "Have you checked in with yourself today?",
+    "topic": "selfCheckIn",
+    "inputType": "buttonGroup",
+    "resourceID": "11111111-1111-1111-1111-111111111136",
+    "isEnabled": true,
+    "backgroundColorName": "#E5D4ED",
+    "backgroundImageName": null,
+    "options": ["None", "Low", "Some", "Plenty"]
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aaec-bbbbbbbbbbbb",
+    "title": "How kind are you being to yourself today?",
+    "topic": "selfKindness",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111137",
+    "isEnabled": true,
+    "backgroundColorName": "#FADADD",
+    "backgroundImageName": null
+  },
+  {
+    "id": "f1a1b2c3-d4e5-6789-aaed-bbbbbbbbbbbb",
+    "title": "How true are you being to your needs?",
+    "topic": "authenticity",
+    "inputType": "slider",
+    "resourceID": "11111111-1111-1111-1111-111111111138",
+    "isEnabled": true,
+    "backgroundColorName": "#D4E4D1",
+    "backgroundImageName": null
+  }
+]
