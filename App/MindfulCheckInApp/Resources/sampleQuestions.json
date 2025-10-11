@@ -6,6 +6,7 @@
     "inputType": "buttonGroup",
     "resourceID": "11111111-1111-1111-1111-111111111111",
     "isEnabled": true,
+    "hideBackButton": true,
     "backgroundColorName": "#D8CDEA",
     "backgroundImageName": null,
     "options": ["None", "Low", "Some", "Plenty"]
@@ -92,7 +93,12 @@
     "resourceID": "11111111-1111-1111-1111-111111111118",
     "isEnabled": true,
     "backgroundColorName": "#F2B5A0",
-    "backgroundImageName": null
+    "backgroundImageName": null,
+    "scoring": {
+      "flaggedMaxScale": 4,
+      "positiveMinScale": 2,
+      "higherIsBetter": false
+    }
   },
   {
     "id": "f1a1b2c3-d4e5-6789-aabc-bbbbbbbbbbbb",
@@ -184,7 +190,12 @@
     "resourceID": "11111111-1111-1111-1111-111111111127",
     "isEnabled": true,
     "backgroundColorName": "#D0E6F7",
-    "backgroundImageName": null
+    "backgroundImageName": null,
+    "scoring": {
+      "flaggedMaxScale": 4,
+      "positiveMinScale": 2,
+      "higherIsBetter": false
+    }
   },
   {
     "id": "f1a1b2c3-d4e5-6789-aacf-bbbbbbbbbbbb",
@@ -194,7 +205,12 @@
     "resourceID": "11111111-1111-1111-1111-111111111128",
     "isEnabled": true,
     "backgroundColorName": "#D7B9C5",
-    "backgroundImageName": null
+    "backgroundImageName": null,
+    "scoring": {
+      "flaggedMaxScale": 4,
+      "positiveMinScale": 2,
+      "higherIsBetter": false
+    }
   },
   {
     "id": "f1a1b2c3-d4e5-6789-aada-bbbbbbbbbbbb",

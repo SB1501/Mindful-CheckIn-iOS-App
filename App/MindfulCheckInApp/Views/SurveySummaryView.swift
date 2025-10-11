@@ -22,6 +22,11 @@ struct SurveySummaryView: View {
     var neutralTopics: [QuestionTopic] {
         Array(session.neutralTopics)
     }
+    
+    var skippedTopics: [QuestionTopic] {
+        let skippedIDs = Set(session.responses.filter { $0.wasSkipped }.map { $0.questionID })
+        return questions.filter { skippedIDs.contains($0.id) }.map { $0.topic }
+    }
 
     var body: some View {
         ScrollView {
@@ -33,22 +38,35 @@ struct SurveySummaryView: View {
                 // Flagged Topics
                 if !flaggedTopics.isEmpty {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("🔴 Things to focus on")
+                        Text("🔴 Things to be Mindful of")
                             .font(.title3)
                             .fontWeight(.semibold)
 
-                        ForEach(Array(flaggedTopics.enumerated()), id: \.offset) { index, topic in
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(topic.displayName)
-                                    .font(.headline)
-                                    .fontWeight(.semibold)
-                                Text(topic.flaggedSummary)
-                                    .font(.subheadline)
-                                    .foregroundStyle(.secondary)
-                                NavigationLink("Learn more", destination: ResourceView(topic: topic))
-                                    .font(.footnote)
-                                    .foregroundColor(.blue)
+                        ForEach(Array(flaggedTopics.enumerated()), id: \.offset) { _, topic in
+                            NavigationLink(destination: ResourceView(topic: topic)) {
+                                HStack(alignment: .center, spacing: 12) {
+                                    Text("🔴")
+                                        .font(.title3)
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text(topic.displayName)
+                                            .font(.headline)
+                                            .fontWeight(.semibold)
+                                        Text(topic.flaggedSummary)
+                                            .font(.subheadline)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundStyle(.secondary)
+                                }
+                                .padding()
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                        .fill(Color(.systemBackground))
+                                        .shadow(color: Color.black.opacity(0.05), radius: 6, x: 0, y: 2)
+                                )
                             }
+                            .buttonStyle(.plain)
                         }
                     }
                     .padding()
@@ -61,18 +79,46 @@ struct SurveySummaryView: View {
                             .font(.title3)
                             .fontWeight(.semibold)
 
-                        ForEach(Array(neutralTopics.enumerated()), id: \.offset) { index, topic in
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(topic.displayName)
-                                    .font(.headline)
-                                    .fontWeight(.semibold)
-                                Text(topic.neutralSummary)
-                                    .font(.subheadline)
-                                    .foregroundStyle(.secondary)
-                                NavigationLink("Learn more", destination: ResourceView(topic: topic))
-                                    .font(.footnote)
-                                    .foregroundColor(.blue)
+                        ForEach(Array(neutralTopics.enumerated()), id: \.offset) { _, topic in
+                            NavigationLink(destination: ResourceView(topic: topic)) {
+                                HStack(alignment: .center, spacing: 12) {
+                                    Text("🟡")
+                                        .font(.title3)
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text(topic.displayName)
+                                            .font(.headline)
+                                            .fontWeight(.semibold)
+                                        Text(topic.neutralSummary)
+                                            .font(.subheadline)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundStyle(.secondary)
+                                }
+                                .padding()
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                        .fill(Color(.systemBackground))
+                                        .shadow(color: Color.black.opacity(0.05), radius: 6, x: 0, y: 2)
+                                )
                             }
+                            .buttonStyle(.plain)
+                        }
+                    }
+                    .padding()
+                }
+
+                // Skipped Questions
+                if !skippedTopics.isEmpty {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Questions you skipped")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                        ForEach(Array(skippedTopics.enumerated()), id: \.offset) { _, topic in
+                            Text("• \(topic.displayName)")
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
                         }
                     }
                     .padding()
@@ -94,18 +140,31 @@ struct SurveySummaryView: View {
                             .font(.title3)
                             .fontWeight(.semibold)
 
-                        ForEach(Array(positiveTopics.enumerated()), id: \.offset) { index, topic in
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(topic.displayName)
-                                    .font(.headline)
-                                    .fontWeight(.semibold)
-                                Text(topic.positiveSummary)
-                                    .font(.subheadline)
-                                    .foregroundStyle(.secondary)
-                                NavigationLink("Learn more", destination: ResourceView(topic: topic))
-                                    .font(.footnote)
-                                    .foregroundColor(.blue)
+                        ForEach(Array(positiveTopics.enumerated()), id: \.offset) { _, topic in
+                            NavigationLink(destination: ResourceView(topic: topic)) {
+                                HStack(alignment: .center, spacing: 12) {
+                                    Text("🟢")
+                                        .font(.title3)
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text(topic.displayName)
+                                            .font(.headline)
+                                            .fontWeight(.semibold)
+                                        Text(topic.positiveSummary)
+                                            .font(.subheadline)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundStyle(.secondary)
+                                }
+                                .padding()
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                        .fill(Color(.systemBackground))
+                                        .shadow(color: Color.black.opacity(0.05), radius: 6, x: 0, y: 2)
+                                )
                             }
+                            .buttonStyle(.plain)
                         }
                     }
                     .padding()
