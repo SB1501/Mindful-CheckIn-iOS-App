@@ -6,7 +6,7 @@ import SwiftUI
 
 struct ResourceHomeView: View {
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     // Intro
@@ -22,7 +22,7 @@ struct ResourceHomeView: View {
                                 // Placeholder icon/emoji
                                 ZStack {
                                     Circle()
-                                        .fill(Color.blue.opacity(0.15))
+                                        .fill(topic.color.opacity(0.25))
                                         .frame(width: 44, height: 44)
                                     Text("📘")
                                         .font(.title3)
@@ -41,8 +41,14 @@ struct ResourceHomeView: View {
                                     .foregroundColor(.gray)
                             }
                             .padding()
-                            .background(Color.blue.opacity(0.1))
-                            .cornerRadius(12)
+                            .background(
+                                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                    .fill(topic.backgroundColor)
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                                    .stroke(topic.color.opacity(0.2), lineWidth: 1)
+                            )
                         }
                     }
 
@@ -55,6 +61,7 @@ struct ResourceHomeView: View {
                 }
                 .padding()
             }
+            .background(Color(.systemGroupedBackground))
             .navigationTitle("Resources")
         }
     }
