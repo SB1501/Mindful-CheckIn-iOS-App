@@ -3,37 +3,36 @@
 This survey uses two input types: Button Groups and Sliders. Button groups offer discrete options mapped to qualitative states (e.g., “None” to “Well rested”). Sliders measure polarity from negative to positive across a continuous scale. This part has been significantly reworked as the build of the app has come along with main changes being from Low/High to Negative/Positive on slider scaling and different button answers to suit the question for button group questions. 
 
 
-
 ## Button Group Questions
 
 Each question presents 3–4 options that reflect a progression from negative to positive states. These options are mapped to internal logic triggers in the Survey Manager / Controller (e.g., ‘bad’, ‘neutral’, ‘good’) depending on context.
 
 ### Question Options	
-How much sleep have you had?	
+**How much sleep have you had?**	
 None · Barely any · Enough · Well rested	
 
-How much water have you had to drink?	
+** How much water have you had to drink?	**
 None · Barely any · Some · Well hydrated	
 
-How much have you eaten today?	
+**How much have you eaten today?	**
 Too much · Too little · Enough · Well nourished	
 
-How much time have you had to rest today?	
+**How much time have you had to rest today?	**
 None · A little · Enough · Fully rested	
 
-Have you taken care of your hygiene today?	
+** Have you taken care of your hygiene today?	**
 Not at all · Partially · Mostly · Fully	
 
-Have you socialised recently?	Not at all · 
-Very little · Some · Plenty	
+** Have you socialised recently?	**
+Not at all · Very little · Some · Plenty	
 
-How much time have you spent outdoors lately?	
+**How much time have you spent outdoors lately?	**
 None · A little · Some · Plenty	
 
-Have you taken a mental break?	
+** Have you taken a mental break?	**
 None · Briefly · Some · Fully disconnected	
 
-Have you checked in with yourself today?	
+** Have you checked in with yourself today?	**
 Not yet · Briefly · Somewhat · Fully present	
 
 
@@ -77,7 +76,6 @@ How positively focused do you feel today?
 How positively engaged are you with important tasks?	
 
 How positively motivated do you feel right now?	
-
 
 How positively kind are you being to yourself?	
 
