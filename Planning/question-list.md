@@ -1,67 +1,86 @@
-## Basic Needs
+# Self-Check Survey Structure
 
-| Topic     | Question                          | Options                          |
-|-----------|-----------------------------------|----------------------------------|
-| Sleep     | How much sleep have you had?      | Too little / Enough / Too much   |
-| Hydration | Have you had enough water?        | Not enough / Enough              |
-| Food      | How much have you eaten?          | Too little / Enough / Too much   |
-| Caffeine  | How much caffeine today?          | None / Some / A lot              |
-| Sugar     | How much sugar today?             | Too little / Enough / Too much   |
+This survey uses two input types: Button Groups and Sliders. Button groups offer discrete options mapped to qualitative states (e.g., “None” to “Well rested”). Sliders measure polarity from negative to positive across a continuous scale. This part has been significantly reworked as the build of the app has come along with main changes being from Low/High to Negative/Positive on slider scaling and different button answers to suit the question for button group questions. 
 
-## Physical State
 
-| Topic     | Question                                  | Options                          |
-|-----------|-------------------------------------------|----------------------------------|
-| Rest      | Have you had enough rest today?           | None / Some / Plenty             |
-| Hygiene   | Have you bathed or showered lately?       | Yes / No                         |
-| Strain    | Have you been physically strained lately? | Yes / No                         |
-| Clothing  | Is your clothing too restrictive?         | Yes / No                         |
 
-## Sensory Check
+## Button Group Questions
 
-| Topic       | Question                            | Options                          |
-|-------------|-------------------------------------|----------------------------------|
-| Eyes        | How do your eyes feel?              | Tired / Fine / Irritated         |
-| Temperature | How’s the temperature around you?   | Too cold / Just right / Too hot  |
-| Lighting    | Is the lighting irritating you?     | Yes / No                         |
-| Sound       | Are surrounding sounds irritating?  | Yes / No                         |
+Each question presents 3–4 options that reflect a progression from negative to positive states. These options are mapped to internal logic triggers in the Survey Manager / Controller (e.g., ‘bad’, ‘neutral’, ‘good’) depending on context.
 
-## Environment & Social
+### Question Options	
+How much sleep have you had?	
+None · Barely any · Enough · Well rested	
 
-| Topic       | Question                            | Options                          |
-|-------------|-------------------------------------|----------------------------------|
-| Socializing | Have you socialized recently?       | Not at all / A little / A lot    |
-| Outdoors    | Have you been outdoors lately?      | None / A little / Plenty         |
-| Space       | How tidy is your space?             | Fine / Messy / Could be better   |
-| Screen Time | How much screen time today?         | A little / A lot                 |
+How much water have you had to drink?	
+None · Barely any · Some · Well hydrated	
 
-## Regulation
+How much have you eaten today?	
+Too much · Too little · Enough · Well nourished	
 
-| Topic     | Question                            | Options                          |
-|-----------|-------------------------------------|----------------------------------|
-| Tension   | Are you feeling physically tense?   | Yes / No                         |
-| Breathing | How is your breathing right now?    | Too fast / Just right / Too slow |
+How much time have you had to rest today?	
+None · A little · Enough · Fully rested	
 
-## Mental Load
+Have you taken care of your hygiene today?	
+Not at all · Partially · Mostly · Fully	
 
-| Topic        | Question                                 | Options                          |
-|--------------|------------------------------------------|----------------------------------|
-| Mental Busy  | How mentally busy do you feel?           | Calm / Focused / Overwhelmed     |
-| Task Load    | Are you juggling too many tasks?         | No / Maybe / Definitely          |
-| Mental Break | Have you taken a break from thinking?    | Yes / No                         |
+Have you socialised recently?	Not at all · 
+Very little · Some · Plenty	
 
-## Focus & Motivation
+How much time have you spent outdoors lately?	
+None · A little · Some · Plenty	
 
-| Topic      | Question                              | Options                          |
-|------------|----------------------------------------|----------------------------------|
-| Focus      | How easy is it to concentrate today?   | Sharp / Okay / Scattered         |
-| Avoidance  | Are you avoiding anything important?   | No / A little / Yes              |
-| Motivation | Do you feel motivated right now?       | Yes / Unsure / Not really        |
+Have you taken a mental break?	
+None · Briefly · Some · Fully disconnected	
 
-## Self-Connection
+Have you checked in with yourself today?	
+Not yet · Briefly · Somewhat · Fully present	
 
-| Topic         | Question                                | Options                          |
-|---------------|-----------------------------------------|----------------------------------|
-| Self Check-in | Have you checked in with yourself today?| Yes / No                         |
-| Self-Kindness | Are you being kind to yourself?         | Yes / Trying / Not really        |
-| Authenticity  | Are you being true to what you need?    | Yes / Unsure / No                |
+
+
+
+## Slider Questions
+
+Sliders measure polarity from negative to positive. Some questions use ‘higherIsBetter: false’ logic, indicating that lower values are preferable (e.g. for caffeine intake).
+
+### Question	
+How positively is your caffeine intake affecting you? (higherIsBetter: false)	
+
+How positively is your sugar intake affecting you? (higherIsBetter: false)	
+
+How physically at ease do you feel?	
+
+How positively does your clothing feel?	
+
+How positively do your eyes feel?	
+
+How positively does the temperature feel to you?	
+
+How positively does the lighting feel to you?	
+
+How positively do surrounding sounds affect you?	
+
+How positively does your space feel?	
+
+How positively is your screen time affecting you? (higherIsBetter: false)	
+
+How physically relaxed do you feel?	
+
+How positively steady is your breathing rhythm?	
+
+How positively calm is your mind right now?	
+
+How positively manageable is your task load?	
+
+How positively focused do you feel today?	
+
+How positively engaged are you with important tasks?	
+
+How positively motivated do you feel right now?	
+
+
+How positively kind are you being to yourself?	
+
+How positively aligned are you with your needs?	
+
+
