@@ -6,44 +6,106 @@ import SwiftUI
 
 struct ResourceView: View {
     let topic: QuestionTopic
+    @State private var showingDisclaimer = false
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
-                Text(topic.resourceTitle)
-                    .font(.largeTitle)
-                    .bold()
+        ZStack {
+            topic.backgroundColor.ignoresSafeArea()
+            ScrollView {
+                VStack(alignment: .leading, spacing: 24) {
+                    Text(topic.resourceTitle)
+                        .font(.largeTitle)
+                        .bold()
 
-                Text(topic.resourceSummary)
-                    .font(.body)
+                    Text(topic.resourceSummary)
+                        .font(.body)
 
-                Divider()
+                    Divider()
 
-                Group {
-                    Text("What & Why")
-                        .font(.headline)
-                    Text(topic.resourceWhatWhy)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("What & Why")
+                            .font(.headline)
+                            .foregroundStyle(.primary)
+                        Text(topic.resourceWhatWhy)
+                    }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .fill(.thinMaterial)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .stroke(topic.color.opacity(0.25), lineWidth: 1)
+                    )
 
-                    Text("Positives of Minding It")
-                        .font(.headline)
-                    Text(topic.resourcePositives)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Positives of Minding It")
+                            .font(.headline)
+                            .foregroundStyle(.primary)
+                        Text(topic.resourcePositives)
+                    }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .fill(.thinMaterial)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .stroke(topic.color.opacity(0.25), lineWidth: 1)
+                    )
 
-                    Text("Risks of Neglecting It")
-                        .font(.headline)
-                    Text(topic.resourceRisks)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Risks of Neglecting It")
+                            .font(.headline)
+                            .foregroundStyle(.primary)
+                        Text(topic.resourceRisks)
+                    }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .fill(.thinMaterial)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .stroke(topic.color.opacity(0.25), lineWidth: 1)
+                    )
 
-                    Text("Tips for Managing")
-                        .font(.headline)
-                    Text(topic.resourceTips)
-                }
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Tips for Managing")
+                            .font(.headline)
+                            .foregroundStyle(.primary)
+                        Text(topic.resourceTips)
+                    }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .fill(.thinMaterial)
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .stroke(topic.color.opacity(0.25), lineWidth: 1)
+                    )
 
-                Divider()
+                    Divider()
 
-                NavigationLink("View Disclaimer", destination: DisclaimerView())
+                    Button("View Disclaimer") {
+                        showingDisclaimer = true
+                    }
                     .font(.footnote)
                     .foregroundColor(.red)
+                    .sheet(isPresented: $showingDisclaimer) {
+                        NavigationStack {
+                            DisclaimerView()
+                                .toolbar {
+                                    ToolbarItem(placement: .topBarLeading) {
+                                        Button("Done") { showingDisclaimer = false }
+                                    }
+                                }
+                        }
+                    }
+                }
+                .padding()
             }
-            .padding()
         }
         .navigationTitle(topic.resourceTitle)
     }
