@@ -1,0 +1,30 @@
+# Planned use of Apple SF Symbols per Survey Question Category
+
+- **Sleep** — bed.double
+- **Water** — drop
+- **Food** — fork.knife
+- **Caffeine** — cup.and.saucer
+- **Sugar** — cube.transparent
+- **Rest** — pause.circle
+- **Hygiene** — sparkles
+- **Physical Strain** — figure.strengthtraining.traditional
+- **Clothing Comfort** — tshirt
+- **Eye Strain** — eye.slash
+- **Temperature** — thermometer
+- **Lighting** — lightbulb
+- **Sound Comfort** — speaker.wave.2
+- **Tidy Spaces** — square.grid.2x2
+- **Screen Time** — display
+- **Time Outdoors** — sun.max
+- **Tense Body** — figure.arms.open
+- **Steady Breathing** — wind
+- **Calm Mind** — brain
+- **Task Load Intensity** — exclamationmark.triangle
+- **Mental Breaks** — hourglass
+- **Concentration** — eye 
+- **Avoidance** — arrow.uturn.left
+- **Motivation** — bolt
+- **Checking In Mentally** — questionmark.circle
+- **Being Kind to Yourself** — heart.text.square
+- **Authenticity** — person.crop.circle.badge.checkmark
+- **Socialising** — person.2
