@@ -4,4 +4,10 @@
    <FileRef
       location = "self:">
    </FileRef>
+   <FileRef
+      location = "group:NotificationManager.swift">
+   </FileRef>
+   <FileRef
+      location = "group:OnboardingNotificationsView.swift">
+   </FileRef>
 </Workspace>

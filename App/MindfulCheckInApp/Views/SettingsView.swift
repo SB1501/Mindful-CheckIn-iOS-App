@@ -3,6 +3,7 @@
 
 import Foundation
 import SwiftUI
+import UserNotifications
 
 struct LiquidGlassCard<Content: View>: View {
     var cornerRadius: CGFloat = 20
@@ -24,6 +25,10 @@ struct SettingsView: View {
     @StateObject private var store = SurveyStore.shared
     @State private var showDeleteAllAlert = false
     @State private var showingExportError = false
+
+    @AppStorage("hasSeenWelcome") private var hasSeenWelcome: Bool = false
+    @AppStorage("hasAcceptedDisclaimer") private var hasAcceptedDisclaimer: Bool = false
+    @AppStorage("hasCompletedNotificationSetup") private var hasCompletedNotificationSetup: Bool = false
 
     private var appVersionText: String {
         let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
@@ -93,6 +98,30 @@ struct SettingsView: View {
                 .listRowBackground(Color.clear)
             }
 
+            Section("Onboarding") {
+                LiquidGlassCard {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Button(role: .destructive) {
+                            // Clear onboarding flags so next launch shows the initial sequence once
+                            hasSeenWelcome = false
+                            hasAcceptedDisclaimer = false
+                            hasCompletedNotificationSetup = false
+
+                            // Turn off notifications and cancel any scheduled reminders
+                            Task { await NotificationManager.shared.cancelDailyReminder() }
+                            UserDefaults.standard.removeObject(forKey: "reminderHour")
+                            UserDefaults.standard.removeObject(forKey: "reminderMinute")
+                        } label: {
+                            Label("Reset Initial Setup", systemImage: "arrow.counterclockwise")
+                        }
+                        Text("On next app launch, you'll see the Welcome, Notifications, and Disclaimer screens once.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                .listRowBackground(Color.clear)
+            }
+
             Section("About") {
                 LiquidGlassCard {
                     VStack(alignment: .leading, spacing: 8) {
@@ -154,36 +183,57 @@ struct SettingsView: View {
 // MARK: - Placeholder subviews (replace with your real implementations as needed)
 
 struct QuestionManagementView: View {
+    // Persist a set of disabled topics in UserDefaults
+    @AppStorage("disabled_topics") private var disabledTopicsData: Data = Data()
+
+    @State private var disabledTopics: Set<String> = []
+
+    private var allTopics: [QuestionTopic] {
+        QuestionTopic.allCases
+    }
+
+    private func loadDisabledTopics() {
+        if disabledTopicsData.isEmpty {
+            disabledTopics = []
+            return
+        }
+        if let set = try? JSONDecoder().decode(Set<String>.self, from: disabledTopicsData) {
+            disabledTopics = set
+        }
+    }
+
+    private func persistDisabledTopics() {
+        if let data = try? JSONEncoder().encode(disabledTopics) {
+            disabledTopicsData = data
+        }
+    }
+
+    private func binding(for topic: QuestionTopic) -> Binding<Bool> {
+        Binding<Bool>(
+            get: { !disabledTopics.contains(topic.rawValue) },
+            set: { newValue in
+                if newValue {
+                    disabledTopics.remove(topic.rawValue)
+                } else {
+                    disabledTopics.insert(topic.rawValue)
+                }
+                persistDisabledTopics()
+            }
+        )
+    }
+
     var body: some View {
         List {
-            Text("Manage which questions appear during check-in.")
-                .font(.callout)
-                .foregroundStyle(.secondary)
+            Section(footer: Text("Untick any topics you don't want asked during your check-in. Previously completed surveys won't be affected.")) {
+                ForEach(allTopics, id: \.self) { topic in
+                    Toggle(isOn: binding(for: topic)) {
+                        Text(topic.displayName)
+                    }
+                }
+            }
         }
+        .onAppear { loadDisabledTopics() }
         .navigationTitle("Question Management")
-        .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-struct NotificationsSettingsView: View {
-    @AppStorage("notifications_enabled") private var notificationsEnabled: Bool = false
-    @AppStorage("notifications_time") private var notificationsTime: Date = {
-        var comps = DateComponents()
-        comps.hour = 8; comps.minute = 0
-        return Calendar.current.date(from: comps) ?? Date()
-    }()
-
-    var body: some View {
-        Form {
-            Toggle("Daily Reminder", isOn: $notificationsEnabled)
-            if notificationsEnabled {
-                DatePicker("Time", selection: $notificationsTime, displayedComponents: .hourAndMinute)
-            }
-            Section(footer: Text("Make sure notifications are allowed in iOS Settings > Notifications if reminders don't appear.")) {
-                EmptyView()
-            }
-        }
-        .navigationTitle("Notifications")
         .navigationBarTitleDisplayMode(.inline)
     }
 }

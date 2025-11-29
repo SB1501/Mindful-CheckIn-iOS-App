@@ -7,6 +7,11 @@ import Combine
 
 class SurveyManager: ObservableObject {
     @Published var questions: [SurveyQuestion] = []
+    // Topics the user has disabled in Settings (persisted as a JSON-encoded Set<String> of QuestionTopic.rawValue)
+    @AppStorage("disabled_topics") private var disabledTopicsData: Data = Data()
+    private var disabledTopicIDs: Set<String> {
+        (try? JSONDecoder().decode(Set<String>.self, from: disabledTopicsData)) ?? []
+    }
     @Published var responses: [SurveyResponse] = []
     @Published var currentIndex: Int = 0
 
@@ -22,16 +27,49 @@ class SurveyManager: ObservableObject {
         do {
             let data = try Data(contentsOf: url)
             let decoded = try JSONDecoder().decode([SurveyQuestion].self, from: data)
-            self.questions = decoded
+            self.questions = decoded.map { q in
+                var copy = q
+                // Mark as disabled if the topic is in the disabled set
+                if disabledTopicIDs.contains(q.topic.rawValue) {
+                    copy.isEnabled = false
+                } else {
+                    copy.isEnabled = true
+                }
+                return copy
+            }
+
+            // Reset state for a fresh run
+            self.responses = []
+            self.currentIndex = 0
+            self.session = SurveySession(id: UUID(), date: Date(), responses: [])
+            skipDisabledQuestionsForward()
+
         } catch {
             print("Failed to decode sampleQuestions.json: \(error)")
             self.questions = []
         }
+    }
 
-        // Reset state for a fresh run
-        self.responses = []
-        self.currentIndex = 0
-        self.session = SurveySession(id: UUID(), date: Date(), responses: [])
+    // Whether a question should be presented in the flow
+    func isQuestionEnabled(_ question: SurveyQuestion) -> Bool {
+        return question.isEnabled && !disabledTopicIDs.contains(question.topic.rawValue)
+    }
+
+    // Call this after updating currentIndex to ensure we skip any disabled questions automatically
+    private func skipDisabledQuestionsForward() {
+        while currentIndex < questions.count && !isQuestionEnabled(questions[currentIndex]) {
+            // Record an auto-skip so the session history knows it was skipped
+            let q = questions[currentIndex]
+            let skipped = SurveyResponse(
+                id: UUID(),
+                questionID: q.id,
+                answer: .scale(0),
+                timestamp: Date(),
+                wasSkipped: true
+            )
+            responses.append(skipped)
+            currentIndex += 1
+        }
     }
 
     func recordResponse(for question: SurveyQuestion, answer: AnswerValue) {
@@ -85,6 +123,7 @@ class SurveyManager: ObservableObject {
         if currentIndex < questions.count {
             currentIndex += 1
         }
+        skipDisabledQuestionsForward()
         print("Current index: \(currentIndex) / \(questions.count)")
     }
     

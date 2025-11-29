@@ -27,16 +27,21 @@ struct SurveyFlowView: View {
                 .ignoresSafeArea()
 
             // Existing content column
-            VStack(spacing: 30) {
+            VStack(spacing: 36) {
 
                 if manager.currentIndex < manager.questions.count {
                     let question = manager.questions[manager.currentIndex]
                     Text(question.title)
-                        .font(.title2)
+                        .font(.system(size: 34, weight: .bold))
                         .multilineTextAlignment(.center)
-                        .padding()
+                        .lineSpacing(3)
+                        .minimumScaleFactor(0.8)
+                        .lineLimit(3)
+                        .padding(.horizontal, 24)
+                        .frame(maxWidth: 900)
+                        .frame(maxWidth: .infinity, alignment: .center)
 
-                    VStack(spacing: 12) {
+                    VStack(spacing: 18) {
                         SurveyInputView(
                             question: question,
                             onAnswer: { answer in
@@ -119,37 +124,63 @@ struct SurveyFlowView: View {
                             .disabled(!currentQuestionAnswered)
                         }
                     }
-                    .frame(maxWidth: 520)
+                    .frame(maxWidth: 900)
                     .frame(maxWidth: .infinity)
-                    .padding(.horizontal, 48)
+                    .padding(.horizontal, 20)
 
                     ProgressDotsView(current: manager.currentIndex, total: manager.questions.count)
+                        .padding(.top, 8)
+                        .padding(.bottom, 4)
                 } else {
-                    NavigationLink("View Summary", destination:
-                        SurveySummaryView(session: manager.generateSession(), questions: manager.questions)
-                            .onAppear {
-                                // Persist the completed survey once the summary is presented
-                                let session = manager.generateSession()
-                                let summary = SurveySummary(
-                                    good: session.positiveTopics.count,
-                                    neutral: session.neutralTopics.count,
-                                    bad: session.flaggedTopics.count
+                    ZStack {
+                        // Full-screen background image placeholder
+                        Image("summaryBackgroundPlaceholder")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                            .ignoresSafeArea()
+                            .clipped()
+                            .overlay(Color.black.opacity(0.25))
+
+                        VStack(spacing: 24) {
+                            Spacer()
+                            Text("Nice work!")
+                                .font(.largeTitle.bold())
+                                .foregroundStyle(.white)
+                                .shadow(color: .black.opacity(0.4), radius: 8, x: 0, y: 4)
+                                .multilineTextAlignment(.center)
+                                .padding(.horizontal, 24)
+
+                            NavigationLink {
+                                SurveySummaryView(session: manager.generateSession(), questions: manager.questions)
+                            } label: {
+                                HStack(spacing: 12) {
+                                    Image(systemName: "doc.plaintext")
+                                    Text("View Summary")
+                                }
+                                .font(.title2.weight(.bold))
+                                .foregroundStyle(.white)
+                                .padding(.horizontal, 28)
+                                .padding(.vertical, 16)
+                                .background(
+                                    Capsule(style: .continuous)
+                                        .fill(Color.accentColor.opacity(0.95))
                                 )
-                                let record = SurveyRecord(
-                                    date: session.date,
-                                    summary: summary,
-                                    reflection: session.reflectionNote ?? "",
-                                    positiveTopics: session.positiveTopics,
-                                    neutralTopics: session.neutralTopics,
-                                    flaggedTopics: session.flaggedTopics
+                                .overlay(
+                                    Capsule(style: .continuous)
+                                        .stroke(Color.white.opacity(0.35), lineWidth: 1)
                                 )
-                                SurveyStore.shared.add(record)
+                                .shadow(color: .black.opacity(0.25), radius: 14, x: 0, y: 10)
                             }
-                    )
+                            .buttonStyle(.plain)
+                            Spacer()
+                        }
+                    }
                 }
             }
-            .padding(.horizontal, 16)
-            .frame(maxWidth: 600, alignment: .center)
+            .padding(.horizontal, 24)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .frame(maxWidth: 1100)
             .frame(maxWidth: .infinity, alignment: .center)
             .padding(.vertical)
         }

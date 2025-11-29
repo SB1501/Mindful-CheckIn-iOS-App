@@ -1,7 +1,7 @@
 import SwiftUI
 import UserNotifications
 
-struct NotificationSettingsView: View {
+struct NotificationsSettingsView: View {
     @AppStorage("notifications_enabled") private var notificationsEnabled: Bool = false
     @AppStorage("notifications_time") private var notificationsTime: Date = {
         var calendar = Calendar.current
@@ -60,7 +60,7 @@ struct NotificationSettingsView: View {
     }
     
     private func requestAuthorization(completion: @escaping (Bool) -> Void) {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, _ in
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
             completion(granted)
         }
     }
@@ -70,10 +70,13 @@ struct NotificationSettingsView: View {
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: ["dailyReminder"])
         
-        var dateComponents = Calendar.current.dateComponents([.hour, .minute], from: date)
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone.current
+        let dateComponents = calendar.dateComponents([.hour, .minute], from: date)
+        
         let content = UNMutableNotificationContent()
-        content.title = "Daily Reminder"
-        content.body = "This is your daily reminder."
+        content.title = "Mindful Check-in"
+        content.body = "Got time for a Mindful-Check-in? Tap here to open the app and log how you’re doing."
         content.sound = .default
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
@@ -90,7 +93,14 @@ struct NotificationSettingsView: View {
     private func checkAuthorization() {
         UNUserNotificationCenter.current().getNotificationSettings { settings in
             DispatchQueue.main.async {
-                authorizationGranted = settings.authorizationStatus == .authorized
+                switch settings.authorizationStatus {
+                case .authorized, .provisional, .ephemeral:
+                    authorizationGranted = true
+                case .denied, .notDetermined:
+                    authorizationGranted = false
+                @unknown default:
+                    authorizationGranted = false
+                }
                 if notificationsEnabled && !authorizationGranted {
                     notificationsEnabled = false
                 }
@@ -101,6 +111,6 @@ struct NotificationSettingsView: View {
 
 #Preview {
     NavigationView {
-        NotificationSettingsView()
+        NotificationsSettingsView()
     }
 }

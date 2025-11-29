@@ -6,61 +6,60 @@ import SwiftUI
 
 struct MainMenuView: View {
     var body: some View {
-        NavigationStack {
-            ZStack {
-                // Subtle background gradient
-                LinearGradient(
-                    colors: [Color.blue.opacity(0.15), Color.purple.opacity(0.15)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .ignoresSafeArea()
+        ZStack {
+            // Subtle background gradient
+            LinearGradient(
+                colors: [Color.blue.opacity(0.15), Color.purple.opacity(0.15)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
 
-                VStack(spacing: 28) {
-                    // Logo / Title placeholder
-                    VStack(spacing: 8) {
-                        RoundedRectangle(cornerRadius: 20, style: .continuous)
-                            .fill(.ultraThinMaterial)
-                            .frame(width: 120, height: 120)
-                            .overlay(
-                                Text("🧠")
-                                    .font(.system(size: 56))
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                    .stroke(Color.white.opacity(0.3), lineWidth: 1)
-                            )
-                            .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 6)
+            VStack(spacing: 28) {
+                // Logo / Title placeholder
+                VStack(spacing: 8) {
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(.ultraThinMaterial)
+                        .frame(width: 120, height: 120)
+                        .overlay(
+                            Text("🧠")
+                                .font(.system(size: 56))
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                        )
+                        .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 6)
 
-                        Text("Mindful Check-In")
-                            .font(.largeTitle).bold()
-                            .foregroundStyle(.primary)
-                            .padding(.top, 4)
-                    }
-                    .padding(.top, 24)
-
-                    // Big Liquid Glass buttons
-                    VStack(spacing: 16) {
-                        MenuGlassButton(icon: "📝", title: "Check In") {
-                            SurveyFlowView()
-                        }
-                        MenuGlassButton(icon: "📚", title: "Resources") {
-                            ResourceHomeView()
-                        }
-                        MenuGlassButton(icon: "🗂️", title: "Past Records") {
-                            PastRecordsView()
-                        }
-                        MenuGlassButton(icon: "⚙️", title: "Settings") {
-                            SettingsView()
-                        }
-                    }
-                    .padding(.horizontal)
-
-                    Spacer(minLength: 0)
+                    Text("Mindful Check-In")
+                        .font(.largeTitle).bold()
+                        .foregroundStyle(.primary)
+                        .padding(.top, 4)
                 }
-                .padding()
+                .padding(.top, 24)
+
+                // Big Liquid Glass buttons
+                VStack(spacing: 16) {
+                    MenuGlassButton(icon: "📝", title: "Check In") {
+                        SurveyFlowView()
+                    }
+                    MenuGlassButton(icon: "📚", title: "Resources") {
+                        ResourceHomeView()
+                    }
+                    MenuGlassButton(icon: "🗂️", title: "Past Records") {
+                        PastRecordsView()
+                    }
+                    MenuGlassButton(icon: "⚙️", title: "Settings") {
+                        SettingsView()
+                    }
+                }
+                .padding(.horizontal)
+
+                Spacer(minLength: 0)
             }
+            .padding()
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
 
@@ -108,3 +107,4 @@ private struct MenuGlassButton<Destination: View>: View {
         .buttonStyle(.plain)
     }
 }
+

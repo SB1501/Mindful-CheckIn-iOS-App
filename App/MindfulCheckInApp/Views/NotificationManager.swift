@@ -1,69 +1,81 @@
-// SB - NotificationManager
-// Controls notifications, but the actual technical side of how they work - not permissions. 
-
 import Foundation
 import UserNotifications
-import UIKit
+import SwiftUI
+import Combine
 
-final class NotificationManager {
+struct DailyReminderTime: Codable, Equatable {
+    var hour: Int
+    var minute: Int
+}
+
+@MainActor
+final class NotificationManager: ObservableObject {
     static let shared = NotificationManager()
 
-    private init() {}
-
-    // Authorisation
-    func getAuthorizationStatus(completion: @escaping (UNAuthorizationStatus) -> Void) {
-        UNUserNotificationCenter.current().getNotificationSettings { settings in
-            completion(settings.authorizationStatus)
+    @Published var notificationEnabled: Bool {
+        didSet {
+            UserDefaults.standard.set(notificationEnabled, forKey: "notificationEnabled")
         }
     }
 
-    // Requests authorisation only if status is .notDetermined
-    func requestAuthorizationIfNeeded(completion: @escaping (_ granted: Bool) -> Void) {
-        getAuthorizationStatus { status in
-            switch status {
-            case .notDetermined:
-                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, _ in
-                    DispatchQueue.main.async {
-                        completion(granted)
-                    }
-                }
-            case .denied:
-                DispatchQueue.main.async { completion(false) }
-            case .authorized, .provisional, .ephemeral:
-                DispatchQueue.main.async { completion(true) }
-            @unknown default:
-                DispatchQueue.main.async { completion(false) }
-            }
+    @Published var reminderHour: Int {
+        didSet {
+            UserDefaults.standard.set(reminderHour, forKey: "reminderHour")
         }
     }
 
-    // Scheduling
-    func scheduleDailyReminder(at date: Date) {
+    @Published var reminderMinute: Int {
+        didSet {
+            UserDefaults.standard.set(reminderMinute, forKey: "reminderMinute")
+        }
+    }
+
+    private init() {
+        self.notificationEnabled = UserDefaults.standard.object(forKey: "notificationEnabled") as? Bool ?? false
+        self.reminderHour = UserDefaults.standard.object(forKey: "reminderHour") as? Int ?? 9
+        self.reminderMinute = UserDefaults.standard.object(forKey: "reminderMinute") as? Int ?? 0
+    }
+
+    var reminderTime: DailyReminderTime {
+        get { DailyReminderTime(hour: reminderHour, minute: reminderMinute) }
+        set {
+            reminderHour = newValue.hour
+            reminderMinute = newValue.minute
+            UserDefaults.standard.set(reminderHour, forKey: "reminderHour")
+            UserDefaults.standard.set(reminderMinute, forKey: "reminderMinute")
+        }
+    }
+
+    func requestAuthorization(completion: @escaping (Bool) -> Void) {
         let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options: [.alert, .sound, .badge]) { granted, _ in
+            DispatchQueue.main.async { completion(granted) }
+        }
+    }
 
-        // Remove existing request with same identifier to avoid duplicates
-        center.removePendingNotificationRequests(withIdentifiers: ["daily.reminder"]) 
-
-        var dateComponents = Calendar.current.dateComponents([.hour, .minute], from: date)
-        dateComponents.second = 0
+    func scheduleDailyReminder() async throws {
+        let center = UNUserNotificationCenter.current()
+        await center.removePendingNotificationRequests(withIdentifiers: [Self.dailyIdentifier])
 
         let content = UNMutableNotificationContent()
-        content.title = "Mindful Check-In"
-        content.body = "Take a moment to reflect and check in."
+        content.title = "Mindful Check-in"
+        content.body = "Got time for a Mindful-Check-in? Tap here to open the app and log how you’re doing."
         content.sound = .default
 
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
-        let request = UNNotificationRequest(identifier: "daily.reminder", content: content, trigger: trigger)
-        center.add(request, withCompletionHandler: nil)
+        var comps = DateComponents()
+        comps.hour = reminderHour
+        comps.minute = reminderMinute
+
+        let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: true)
+        let request = UNNotificationRequest(identifier: Self.dailyIdentifier, content: content, trigger: trigger)
+        try await center.add(request)
     }
 
-    func cancelAllReminders() {
-        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+    func cancelDailyReminder() async {
+        let center = UNUserNotificationCenter.current()
+        await center.removePendingNotificationRequests(withIdentifiers: [Self.dailyIdentifier])
     }
 
-    // Settings
-    func openSettings() {
-        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
-        UIApplication.shared.open(url)
-    }
+    static let dailyIdentifier = "daily_mindful_checkin"
 }
+

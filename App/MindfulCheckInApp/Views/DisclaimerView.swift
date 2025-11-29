@@ -9,6 +9,9 @@ struct DisclaimerView: View {
     @Environment(\.dismiss) private var dismiss
     @AppStorage("hasAcceptedDisclaimer") private var hasAcceptedDisclaimer: Bool = false
 
+    // When true, the view dismisses back to the presenting screen. When false (onboarding), it does not pop.
+    var isPresentedModally: Bool = false
+
     var body: some View {
         ZStack {
             // Appealing red gradient background
@@ -65,9 +68,14 @@ struct DisclaimerView: View {
                 // Bottom-aligned button
                 Button(action: {
                     hasAcceptedDisclaimer = true
-                    // If this view is presented modally (e.g., from ResourceView), just dismiss.
-                    // Otherwise, rely on the navigation stack to continue to the next screen.
-                    dismiss()
+                    hasCompletedNotificationSetup = true
+                    if isPresentedModally {
+                        // Presented from elsewhere: just dismiss back to the originating screen.
+                        dismiss()
+                    } else {
+                        // Onboarding: set flags and dismiss to allow container to route to Main Menu.
+                        dismiss()
+                    }
                 }) {
                     Text("I understand")
                         .bold()
@@ -82,7 +90,9 @@ struct DisclaimerView: View {
                 .padding(.horizontal)
                 .padding(.bottom)
             }
+            .navigationBarBackButtonHidden(!isPresentedModally)
             .padding()
         }
     }
 }
+

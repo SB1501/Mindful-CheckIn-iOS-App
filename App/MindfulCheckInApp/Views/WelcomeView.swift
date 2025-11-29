@@ -8,10 +8,12 @@ import SwiftUI
 struct WelcomeView: View {
     @AppStorage("hasSeenWelcome") private var hasSeenWelcome: Bool = false
     @AppStorage("hasAcceptedDisclaimer") private var hasAcceptedDisclaimer: Bool = false
+    @AppStorage("resetOnboarding") private var resetOnboarding: Bool = false
     @State private var goForward = false
+    @State private var path = NavigationPath()
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             ZStack {
                 // Soft background gradient
                 LinearGradient(colors: [Color.green.opacity(0.12), Color.teal.opacity(0.12)], startPoint: .topLeading, endPoint: .bottomTrailing)
@@ -55,7 +57,8 @@ struct WelcomeView: View {
 
                     // Big green Let's Go button at the bottom
                     NavigationLink {
-                        DisclaimerView()
+                        PermissionsView()
+                            .navigationBarBackButtonHidden(true)
                             .onAppear { hasSeenWelcome = true }
                     } label: {
                         HStack(spacing: 10) {
@@ -73,27 +76,47 @@ struct WelcomeView: View {
                         .shadow(color: Color.green.opacity(0.35), radius: 10, x: 0, y: 6)
                     }
                     .buttonStyle(.plain)
-
-                    // Hidden navigation used for subsequent launches
-                    NavigationLink("", isActive: $goForward) {
-                        Group {
-                            if hasAcceptedDisclaimer {
-                                MainMenuView()
-                            } else {
-                                DisclaimerView()
-                            }
-                        }
-                    }
-                    .hidden()
                 }
                 .padding()
+                .onChange(of: hasAcceptedDisclaimer) { oldValue, newValue in
+                    if newValue {
+                        // When disclaimer accepted, route to main menu and clear back stack
+                        path = NavigationPath()
+                        path.append("main")
+                    }
+                }
+                .onAppear {
+                    // Determine whether onboarding should run: first launch or explicit reset
+                    let shouldRunOnboarding = resetOnboarding || !hasSeenWelcome
+                    DispatchQueue.main.async {
+                        path = NavigationPath()
+                        if shouldRunOnboarding {
+                            // If we were asked to reset onboarding, clear the flag so it only runs once
+                            if resetOnboarding { resetOnboarding = false }
+                            if hasAcceptedDisclaimer {
+                                // Edge case: disclaimer already accepted but onboarding reset requested -> go to main
+                                path.append("main")
+                            } else {
+                                // Start onboarding at permissions
+                                path.append("permissions")
+                            }
+                        } else {
+                            // Normal subsequent runs -> go straight to main menu
+                            path.append("main")
+                        }
+                    }
+                }
             }
-        }
-        .onAppear {
-            // On subsequent runs, skip the welcome screen
-            if hasSeenWelcome {
-                // Defer to ensure NavigationStack is ready
-                DispatchQueue.main.async { goForward = true }
+            .navigationDestination(for: String.self) { route in
+                switch route {
+                case "permissions":
+                    PermissionsView()
+                        .navigationBarBackButtonHidden(true)
+                case "main":
+                    MainMenuView()
+                        .navigationBarBackButtonHidden(true)
+                default: EmptyView()
+                }
             }
         }
     }
