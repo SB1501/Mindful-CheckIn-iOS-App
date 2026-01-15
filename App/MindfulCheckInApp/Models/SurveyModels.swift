@@ -48,67 +48,15 @@ var positiveSummary: String {
     }
 }
 
-var resourceTitle: String {
-    switch self {
-    case .sleep: return "Better Sleep"
-    case .hydration: return "Hydration Habits"
-    case .food: return "Mindful Eating"
-    case .caffeine: return "Caffeine Awareness"
-    case .sugar: return "Sugar and Mood"
-    case .rest: return "Rest and Recovery"
-    case .hygiene: return "Self-Care Routines"
-    case .strain: return "Body Awareness"
-    case .clothing: return "Comfort and Clothing"
-    case .eyes: return "Eye Strain Relief"
-    case .temperature: return "Temperature Regulation"
-    case .lighting: return "Lighting and Mood"
-    case .sound: return "Sound Sensitivity"
-    case .socialising: return "Social Connection"
-    case .outdoors: return "Nature and Mood"
-    case .space: return "Tidy Spaces"
-    case .screenTime: return "Screen Time Balance"
-    case .tension: return "Physical Tension"
-    case .breathing: return "Breath Awareness"
-    case .mentalBusy: return "Mental Load"
-    case .taskLoad: return "Task Management"
-    case .mentalBreak: return "Mental Breaks"
-    case .focus: return "Focus and Flow"
-    case .avoidance: return "Avoidance Patterns"
-    case .motivation: return "Motivation Boosters"
-    case .selfCheckIn: return "Self-Check-In"
-    case .selfKindness: return "Self-Kindness"
-    case .authenticity: return "Authenticity"
-    }
+var flaggedSummary: String {
+    // message for when this topic was flagged by a low score
+    return "This area may need attention."
 }
-    var resourceSummary: String {
-        return "This topic supports your overall wellbeing. Placeholder summary for now."
-    }
 
-    var resourceWhatWhy: String {
-        return "Placeholder: This section explains what this topic is and why it matters for your mental, emotional, or physical health."
-    }
-
-    var resourcePositives: String {
-        return "Placeholder: Benefits of paying attention to this area include improved wellbeing, clarity, and resilience."
-    }
-
-    var resourceRisks: String {
-        return "Placeholder: Neglecting this area may lead to discomfort, stress, or reduced functioning."
-    }
-
-    var resourceTips: String {
-        return "Placeholder: Tips for managing this include small daily habits, awareness, and supportive routines."
-    }
-    
-    var flaggedSummary: String {
-        // message for when this topic was flagged by a low score
-        return "This area may need attention."
-    }
-
-    var neutralSummary: String {
-        // message for when this topic is neither flagged nor strongly positive
-        return "This area seems okay today."
-    }
+var neutralSummary: String {
+    // message for when this topic is neither flagged nor strongly positive
+    return "This area seems okay today."
+}
 
 var displayName: String {
     switch self {

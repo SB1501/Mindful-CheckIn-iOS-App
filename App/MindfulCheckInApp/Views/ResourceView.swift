@@ -13,22 +13,37 @@ struct ResourceView: View {
             topic.backgroundColor.ignoresSafeArea()
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
-                    Text(topic.resourceTitle)
-                        .font(.largeTitle)
-                        .bold()
+                    HStack(alignment: .firstTextBaseline, spacing: 12) {
+                        Text("📘")
+                            .font(.system(size: 40))
+                        Text(topic.resourceTitle)
+                            .font(.system(size: 40, weight: .bold))
+                            .multilineTextAlignment(.leading)
+                    }
 
                     Text(topic.resourceSummary)
-                        .font(.body)
+                        .font(.title3)
+                        .foregroundStyle(.primary)
 
                     Divider()
 
                     VStack(alignment: .leading, spacing: 8) {
                         Text("What & Why")
-                            .font(.headline)
+                            .font(.title3).bold()
                             .foregroundStyle(.primary)
-                        Text(topic.resourceWhatWhy)
+                        VStack(alignment: .leading, spacing: 6) {
+                            ForEach(topic.resourceWhatWhy.split(separator: "\n").map(String.init), id: \.self) { line in
+                                if !line.trimmingCharacters(in: .whitespaces).isEmpty {
+                                    HStack(alignment: .firstTextBaseline, spacing: 8) {
+                                        Text("•")
+                                        Text(line)
+                                    }
+                                }
+                            }
+                        }
                     }
                     .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .background(
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
                             .fill(.thinMaterial)
@@ -40,11 +55,21 @@ struct ResourceView: View {
 
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Positives of Minding It")
-                            .font(.headline)
+                            .font(.title3).bold()
                             .foregroundStyle(.primary)
-                        Text(topic.resourcePositives)
+                        VStack(alignment: .leading, spacing: 6) {
+                            ForEach(topic.resourcePositives.split(separator: "\n").map(String.init), id: \.self) { line in
+                                if !line.trimmingCharacters(in: .whitespaces).isEmpty {
+                                    HStack(alignment: .firstTextBaseline, spacing: 8) {
+                                        Text("•")
+                                        Text(line)
+                                    }
+                                }
+                            }
+                        }
                     }
                     .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .background(
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
                             .fill(.thinMaterial)
@@ -56,11 +81,21 @@ struct ResourceView: View {
 
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Risks of Neglecting It")
-                            .font(.headline)
+                            .font(.title3).bold()
                             .foregroundStyle(.primary)
-                        Text(topic.resourceRisks)
+                        VStack(alignment: .leading, spacing: 6) {
+                            ForEach(topic.resourceRisks.split(separator: "\n").map(String.init), id: \.self) { line in
+                                if !line.trimmingCharacters(in: .whitespaces).isEmpty {
+                                    HStack(alignment: .firstTextBaseline, spacing: 8) {
+                                        Text("•")
+                                        Text(line)
+                                    }
+                                }
+                            }
+                        }
                     }
                     .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .background(
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
                             .fill(.thinMaterial)
@@ -72,11 +107,21 @@ struct ResourceView: View {
 
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Tips for Managing")
-                            .font(.headline)
+                            .font(.title3).bold()
                             .foregroundStyle(.primary)
-                        Text(topic.resourceTips)
+                        VStack(alignment: .leading, spacing: 6) {
+                            ForEach(topic.resourceTips.split(separator: "\n").map(String.init), id: \.self) { line in
+                                if !line.trimmingCharacters(in: .whitespaces).isEmpty {
+                                    HStack(alignment: .firstTextBaseline, spacing: 8) {
+                                        Text("•")
+                                        Text(line)
+                                    }
+                                }
+                            }
+                        }
                     }
                     .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .background(
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
                             .fill(.thinMaterial)
@@ -88,19 +133,36 @@ struct ResourceView: View {
 
                     Divider()
 
-                    Button("View Disclaimer") {
+                    Button {
                         showingDisclaimer = true
+                    } label: {
+                        HStack(spacing: 8) {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .foregroundStyle(.white)
+                            Text("View Disclaimer").bold().foregroundStyle(.white)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14)
+                        .padding(.horizontal)
+                        
+
                     }
-                    .font(.footnote)
-                    .foregroundColor(.red)
+                    .buttonStyle(.glassProminent)
+                    .tint(.red)
                     .sheet(isPresented: $showingDisclaimer) {
                         DisclaimerView()
                     }
                 }
                 .padding()
             }
+            .background(.thinMaterial)
         }
-        .navigationTitle(topic.resourceTitle)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                EmptyView()
+            }
+        }
     }
 }
 

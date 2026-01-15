@@ -4,17 +4,25 @@
 import Foundation
 import SwiftUI
 
+
 struct ResourceHomeView: View {
+    
+    @State private var showingDisclaimer = false
+    
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
+                    Text("Resources")
+                        .font(.system(size: 40, weight: .bold))
+                        .multilineTextAlignment(.leading)
                     // Intro
                     Text("Explore topics that support your wellbeing. Tap any to learn more about what it means, why it matters, and how to manage it.")
-                        .font(.body)
-
+                        .font(.title3)
+                        .foregroundStyle(.primary)
+                    
                     Divider()
-
+                    
                     // Topic Buttons
                     ForEach(QuestionTopic.allCases, id: \.self) { topic in
                         NavigationLink(destination: ResourceView(topic: topic)) {
@@ -27,14 +35,12 @@ struct ResourceHomeView: View {
                                     Text("📘")
                                         .font(.title3)
                                 }
-
+                                
                                 VStack(alignment: .leading) {
                                     Text(topic.resourceTitle)
                                         .font(.title2)
                                         .bold()
-                                    Text(topic.resourceSummary)
-                                        .font(.subheadline)
-                                        .foregroundColor(.secondary)
+                                        .foregroundColor(.white)
                                 }
                                 Spacer()
                                 Image(systemName: "chevron.right")
@@ -51,18 +57,36 @@ struct ResourceHomeView: View {
                             )
                         }
                     }
-
+                    
                     Divider()
-
+                    
                     // Disclaimer Link
-                    NavigationLink("View Disclaimer", destination: DisclaimerView())
-                        .font(.footnote)
-                        .foregroundColor(.blue)
+                    Button {
+                        showingDisclaimer = true
+                    } label: {
+                        HStack(spacing: 8) {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .foregroundStyle(.white)
+                            Text("View Disclaimer")
+                                .bold()
+                                .foregroundStyle(.white)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14)
+                        .padding(.horizontal)
+                    }
+                    .buttonStyle(.glassProminent)
+                    .tint(.red)
+                    .sheet(isPresented: $showingDisclaimer) {
+                        DisclaimerView()
+                    }
+                    
+                    .padding()
                 }
-                .padding()
+                .background(Color(.systemGroupedBackground))
             }
-            .background(Color(.systemGroupedBackground))
-            .navigationTitle("Resources")
+            .padding()
         }
     }
+    
 }
