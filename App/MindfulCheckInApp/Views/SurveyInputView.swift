@@ -149,19 +149,26 @@ struct SurveyInputView: View {
                             }
                             .frame(height: 48)
                             .clipShape(Capsule())
-
-                            // Selection highlight
-                            if let selected = selectedChoice, let idx = segments.firstIndex(of: selected) {
-                                GeometryReader { geo in
-                                    let segmentWidth = geo.size.width / CGFloat(segments.count)
-                                    Capsule()
-                                        .fill(Color.white.opacity(0.15))
-                                        .frame(width: segmentWidth, height: 48)
-                                        .offset(x: segmentWidth * CGFloat(idx) - geo.size.width / 2 + segmentWidth / 2)
-                                        .animation(.easeInOut(duration: 0.2), value: selectedChoice)
+                            .overlay {
+                                HStack(spacing: 0) {
+                                    ForEach(segments.indices, id: \.self) { i in
+                                        ZStack {
+                                            if let selected = selectedChoice,
+                                               let idx = segments.firstIndex(of: selected),
+                                               idx == i {
+                                                Capsule()
+                                                    .fill(Color.white.opacity(0.25))
+                                                    .animation(.easeInOut(duration: 0.2), value: selectedChoice)
+                                            } else {
+                                                Color.clear
+                                            }
+                                        }
+                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    }
                                 }
-                                .allowsHitTesting(false)
+                                .clipShape(Capsule())
                             }
+
                         }
                         .frame(height: 48)
                         .accessibilityElement(children: .contain)

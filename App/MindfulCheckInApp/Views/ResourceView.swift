@@ -94,14 +94,7 @@ struct ResourceView: View {
                     .font(.footnote)
                     .foregroundColor(.red)
                     .sheet(isPresented: $showingDisclaimer) {
-                        NavigationStack {
-                            DisclaimerView()
-                                .toolbar {
-                                    ToolbarItem(placement: .topBarLeading) {
-                                        Button("Done") { showingDisclaimer = false }
-                                    }
-                                }
-                        }
+                        DisclaimerView()
                     }
                 }
                 .padding()
@@ -110,3 +103,4 @@ struct ResourceView: View {
         .navigationTitle(topic.resourceTitle)
     }
 }
+

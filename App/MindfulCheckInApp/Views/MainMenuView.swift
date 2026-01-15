@@ -7,15 +7,7 @@ import SwiftUI
 struct MainMenuView: View {
     var body: some View {
         NavigationStack {
-            ZStack {
-                // Subtle background gradient
-                LinearGradient(
-                    colors: [Color.blue.opacity(0.15), Color.purple.opacity(0.15)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .ignoresSafeArea()
-
+            AppShell {
                 VStack(spacing: 28) {
                     // Logo / Title placeholder
                     VStack(spacing: 8) {
@@ -59,6 +51,7 @@ struct MainMenuView: View {
                     Spacer(minLength: 0)
                 }
                 .padding()
+                .navigationBarBackButtonHidden(true)
             }
         }
     }
@@ -108,3 +101,4 @@ private struct MenuGlassButton<Destination: View>: View {
         .buttonStyle(.plain)
     }
 }
+

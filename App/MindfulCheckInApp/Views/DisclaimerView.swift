@@ -44,7 +44,7 @@ struct DisclaimerView: View {
                 .padding(.top, 4)
 
                 // Lengthy paragraph placeholder
-                Text("This app is for reflection and wellbeing support. It is not a medical device and does not provide diagnosis or treatment. If you are experiencing distress or a medical emergency, seek professional help. By continuing, you acknowledge and accept these terms.")
+                Text("This app is for reflection and wellbeing support. It is not a medical device and does not provide diagnosis or treatment. If you are experiencing distress or a medical emergency, seek professional help. By continuing to use this app, you acknowledge and accept these terms.")
                     .font(.body)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.white.opacity(0.95))
@@ -84,5 +84,6 @@ struct DisclaimerView: View {
             }
             .padding()
         }
+        .navigationBarBackButtonHidden(true)
     }
 }

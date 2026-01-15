@@ -35,6 +35,12 @@ class SurveyManager: ObservableObject {
     }
 
     func recordResponse(for question: SurveyQuestion, answer: AnswerValue) {
+        // Remove any existing response for this question (including a previous skip)
+        if let idx = responses.firstIndex(where: { $0.questionID == question.id }) {
+            responses.remove(at: idx)
+        }
+
+        // Add the new response
         let response = SurveyResponse(
             id: UUID(),
             questionID: question.id,
@@ -42,36 +48,44 @@ class SurveyManager: ObservableObject {
             timestamp: Date(),
             wasSkipped: false
         )
-
         responses.append(response)
 
-        // Evaluate and store topic (deduplicate per topic)
+        // Ensure the topic appears in exactly one category: remove from all, then add to the new one
+        removeTopicFromAllCategories(question.topic)
+
         let cat = category(for: answer, question: question)
         switch cat {
         case .negative:
-            if !session.flaggedTopics.contains(question.topic) {
-                session.flaggedTopics.append(question.topic)
-            }
+            session.flaggedTopics.append(question.topic)
         case .neutral:
-            if !session.neutralTopics.contains(question.topic) {
-                session.neutralTopics.append(question.topic)
-            }
+            session.neutralTopics.append(question.topic)
         case .positive:
-            if !session.positiveTopics.contains(question.topic) {
-                session.positiveTopics.append(question.topic)
-            }
+            session.positiveTopics.append(question.topic)
         }
     }
 
     func skipQuestion() {
+        guard currentIndex < questions.count else { return }
+        let question = questions[currentIndex]
+
+        // Remove any existing response for this question
+        if let idx = responses.firstIndex(where: { $0.questionID == question.id }) {
+            responses.remove(at: idx)
+        }
+
+        // Record the skip
         let skipped = SurveyResponse(
             id: UUID(),
-            questionID: questions[currentIndex].id,
+            questionID: question.id,
             answer: .scale(0),
             timestamp: Date(),
             wasSkipped: true
         )
         responses.append(skipped)
+
+        // Remove the topic from all categories since it's skipped
+        removeTopicFromAllCategories(question.topic)
+
         advance()
     }
 
@@ -89,6 +103,12 @@ class SurveyManager: ObservableObject {
     }
     
 
+    private func removeTopicFromAllCategories(_ topic: QuestionTopic) {
+        session.flaggedTopics.removeAll { $0 == topic }
+        session.neutralTopics.removeAll { $0 == topic }
+        session.positiveTopics.removeAll { $0 == topic }
+    }
+    
     func generateSession() -> SurveySession {
         session.responses = responses
         session.reflectionNote = reflectionNote

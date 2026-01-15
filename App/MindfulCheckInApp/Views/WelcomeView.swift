@@ -13,9 +13,13 @@ struct WelcomeView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                // Soft background gradient
-                LinearGradient(colors: [Color.green.opacity(0.12), Color.teal.opacity(0.12)], startPoint: .topLeading, endPoint: .bottomTrailing)
-                    .ignoresSafeArea()
+                AbstractBackgroundView(
+                    colors: [Color.pink, Color.blue, Color.purple, Color.orange],
+                    circleCount: 5,
+                    blurRadius: 80,
+                    seed: 42
+                )
+                .ignoresSafeArea()
 
                 VStack(spacing: 24) {
                     // Top welcome text
@@ -56,6 +60,7 @@ struct WelcomeView: View {
                     // Big green Let's Go button at the bottom
                     NavigationLink {
                         DisclaimerView()
+                            .navigationBarBackButtonHidden(true)
                             .onAppear { hasSeenWelcome = true }
                     } label: {
                         HStack(spacing: 10) {
@@ -83,10 +88,12 @@ struct WelcomeView: View {
                                 DisclaimerView()
                             }
                         }
+                        .navigationBarBackButtonHidden(true)
                     }
                     .hidden()
                 }
                 .padding()
+                .navigationBarBackButtonHidden(true)
             }
         }
         .onAppear {
