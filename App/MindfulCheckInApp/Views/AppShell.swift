@@ -6,7 +6,6 @@ struct AppShell<Content: View>: View {
     var body: some View {
         ZStack {
             AbstractBackgroundView(
-                colors: [Color.pink, Color.blue, Color.purple, Color.orange],
                 circleCount: 5,
                 blurRadius: 80,
                 seed: 42
@@ -31,3 +30,4 @@ struct AppShell<Content: View>: View {
     }
 }
 #endif
+

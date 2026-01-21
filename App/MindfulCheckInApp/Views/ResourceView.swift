@@ -14,8 +14,9 @@ struct ResourceView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 24) {
                     HStack(alignment: .firstTextBaseline, spacing: 12) {
-                        Text("📘")
-                            .font(.system(size: 40))
+                        Image(systemName: topic.symbolName)
+                            .font(.system(size: 34, weight: .semibold))
+                            .foregroundStyle(.white)
                         Text(topic.resourceTitle)
                             .font(.system(size: 40, weight: .bold))
                             .multilineTextAlignment(.leading)

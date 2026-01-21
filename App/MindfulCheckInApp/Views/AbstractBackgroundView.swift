@@ -20,7 +20,7 @@ struct AbstractBackgroundView: View {
 
     @State private var specs: [BlobSpec] = []
 
-    init(colors: [Color] = [Color.red, Color.blue, Color.green, Color.orange],
+    init(colors: [Color] = [Color(white: 0.2), Color(white: 0.35), Color(white: 0.5), Color(white: 0.7)],
          circleCount: Int = 4,
          blurRadius: CGFloat = 80,
          seed: UInt64 = 1) {
@@ -37,7 +37,7 @@ struct AbstractBackgroundView: View {
                 let t = timeline.date.timeIntervalSinceReferenceDate
 
                 context.addFilter(.blur(radius: blurRadius))
-                context.opacity = 0.9
+                context.opacity = 0.95
 
                 for spec in specs {
                     let motionFactor = reduceMotion ? 0.0 : 1.0
@@ -49,7 +49,7 @@ struct AbstractBackgroundView: View {
                     path.addEllipse(in: CGRect(x: cx - r, y: cy - r, width: r * 2, height: r * 2))
 
                     let gradient = Gradient(stops: [
-                        .init(color: spec.color.opacity(0.7), location: 0.0),
+                        .init(color: spec.color.opacity(0.85), location: 0.0),
                         .init(color: spec.color.opacity(0.0), location: 1.0)
                     ])
                     let shading = GraphicsContext.Shading.radialGradient(
@@ -75,11 +75,11 @@ struct AbstractBackgroundView: View {
         for i in 0..<circleCount {
             let baseColor = colors.indices.contains(i) ? colors[i] : colors[i % max(colors.count, 1)]
             let adjusted = baseColor // use the provided color palette directly
-            let sizeScale = CGFloat(0.18 + rng.nextUnit() * 0.18) // 18% - 36% of shortest side
+            let sizeScale = CGFloat(0.20 + rng.nextUnit() * 0.20) // 20% - 40% of shortest side
             let phaseX = rng.nextUnit() * .pi * 2
             let phaseY = rng.nextUnit() * .pi * 2
-            let speedX = 0.08 + rng.nextUnit() * 0.08 // 0.08 - 0.16
-            let speedY = 0.08 + rng.nextUnit() * 0.08 // 0.08 - 0.16
+            let speedX = 0.10 + rng.nextUnit() * 0.10 // 0.10 - 0.20
+            let speedY = 0.10 + rng.nextUnit() * 0.10 // 0.10 - 0.20
             specs.append(BlobSpec(color: adjusted, sizeScale: sizeScale, phaseX: phaseX, phaseY: phaseY, speedX: speedX, speedY: speedY))
         }
         return specs

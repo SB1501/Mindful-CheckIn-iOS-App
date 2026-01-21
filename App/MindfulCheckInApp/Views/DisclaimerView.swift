@@ -13,52 +13,36 @@ struct DisclaimerView: View {
         ZStack {
             // Appealing red gradient background
             LinearGradient(
-                colors: [Color.red.opacity(0.85), Color.orange.opacity(0.75)],
+                colors: [Color.orange.opacity(0.85), Color.red.opacity(0.75)],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
 
             VStack(spacing: 24) {
-                // Title
-                Text("Disclaimer")
-                    .font(.largeTitle).bold()
-                    .foregroundStyle(.white)
-                    .padding(.top, 8)
-
                 // Big warning image placeholder
                 ZStack {
-                    RoundedRectangle(cornerRadius: 28, style: .continuous)
-                        .fill(.ultraThinMaterial)
-                        .frame(width: 160, height: 160)
-                        .overlay(
-                            Text("⚠️")
-                                .font(.system(size: 72))
-                        )
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 28, style: .continuous)
-                                .stroke(Color.white.opacity(0.35), lineWidth: 1)
-                        )
+
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .font(.system(size: 100, weight: .bold))
+                        .foregroundStyle(.white)
                         .shadow(color: Color.black.opacity(0.2), radius: 12, x: 0, y: 8)
                 }
                 .padding(.top, 4)
 
+                // Title
+                Text("Disclaimer")
+                    .font(.system(size: 40, weight: .bold))
+                    .foregroundStyle(.white)
+                    .shadow(color: Color.black.opacity(0.2), radius: 12, x: 0, y: 8)
+
                 // Lengthy paragraph placeholder
-                Text("This app is for reflection and wellbeing support. It is not a medical device and does not provide diagnosis or treatment. If you are experiencing distress or a medical emergency, seek professional help. By continuing to use this app, you acknowledge and accept these terms.")
-                    .font(.body)
+                Text("This app is for reflection and wellbeing support. It does not act as a medical device and does not provide diagnosis or treatment. If you are experiencing distress or a medical emergency, seek professional help. By continuing to use this app, you acknowledge and accept these terms.")
+                    .font(.title3)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(.white.opacity(0.95))
-                    .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 16, style: .continuous)
-                            .fill(.ultraThinMaterial)
-                            .opacity(0.35)
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 16, style: .continuous)
-                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
-                    )
                     .padding(.horizontal)
+                    .shadow(color: Color.black.opacity(0.2), radius: 12, x: 0, y: 8)
 
                 Spacer()
 
@@ -69,17 +53,18 @@ struct DisclaimerView: View {
                     // Otherwise, rely on the navigation stack to continue to the next screen.
                     dismiss()
                 }) {
-                    Text("I understand")
-                        .bold()
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(
-                            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                .fill(Color.white)
-                        )
-                        .foregroundStyle(Color.red)
+                    HStack(spacing: 8) {
+                        Image(systemName: "checkmark.circle.fill")
+                        Text("I understand").bold()
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 14)
+                    .foregroundStyle(Color(.red))
                 }
+                .buttonStyle(.glassProminent)
+                .foregroundStyle(Color(.white))
                 .padding(.horizontal)
+                .tint(Color(.white))
                 .padding(.bottom)
             }
             .padding()
@@ -87,3 +72,11 @@ struct DisclaimerView: View {
         .navigationBarBackButtonHidden(true)
     }
 }
+
+
+#Preview("DisclaimerView") {
+    NavigationStack {
+        DisclaimerView()
+    }
+}
+

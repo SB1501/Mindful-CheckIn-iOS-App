@@ -14,6 +14,9 @@ struct MindfulCheckInApp: App {
             NavigationStack {
                 WelcomeView()
             }
+            .tint(Color.appAccent)
+            .preferredColorScheme(.dark)
         }
     }
 }
+

@@ -26,11 +26,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		7E324D2D2E7F075000FDE189 /* ViewModels */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
 		7E324D2E2E7F075300FDE189 /* Resources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Resources;
@@ -53,7 +48,6 @@
 			isa = PBXGroup;
 			children = (
 				7E324D2E2E7F075300FDE189 /* Resources */,
-				7E324D2D2E7F075000FDE189 /* ViewModels */,
 				7E324D2B2E7F074D00FDE189 /* Views */,
 				7E324D282E7F074900FDE189 /* Models */,
 				7E324D152E7F067A00FDE189 /* MindfulCheckInApp */,
@@ -88,7 +82,6 @@
 				7E324D152E7F067A00FDE189 /* MindfulCheckInApp */,
 				7E324D282E7F074900FDE189 /* Models */,
 				7E324D2B2E7F074D00FDE189 /* Views */,
-				7E324D2D2E7F075000FDE189 /* ViewModels */,
 				7E324D2E2E7F075300FDE189 /* Resources */,
 			);
 			name = MindfulCheckInApp;

@@ -90,6 +90,39 @@ var displayName: String {
     case .authenticity: return "Authenticity"
     }
 }
+
+var symbolName: String {
+    switch self {
+    case .sleep: return "bed.double.fill"
+    case .hydration: return "drop.fill"
+    case .food: return "fork.knife"
+    case .caffeine: return "cup.and.saucer.fill"
+    case .sugar: return "cube.fill"
+    case .rest: return "pause.circle.fill"
+    case .hygiene: return "shower.fill"
+    case .strain: return "figure.cooldown"
+    case .clothing: return "tshirt.fill"
+    case .eyes: return "eye.fill"
+    case .temperature: return "thermometer.sun.fill"
+    case .lighting: return "lightbulb.fill"
+    case .sound: return "speaker.wave.2.fill"
+    case .socialising: return "person.2.fill"
+    case .outdoors: return "leaf.fill"
+    case .space: return "square.grid.2x2.fill"
+    case .screenTime: return "display"
+    case .tension: return "figure.strengthtraining.traditional"
+    case .breathing: return "lungs.fill"
+    case .mentalBusy: return "brain.head.profile"
+    case .taskLoad: return "checklist"
+    case .mentalBreak: return "hourglass"
+    case .focus: return "scope"
+    case .avoidance: return "figure.walk.departure"
+    case .motivation: return "bolt.fill"
+    case .selfCheckIn: return "person.crop.circle.badge.checkmark"
+    case .selfKindness: return "heart.fill"
+    case .authenticity: return "staroflife.fill"
+    }
+}
 }
 
 enum InputType: String, Codable {

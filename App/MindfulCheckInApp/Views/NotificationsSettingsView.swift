@@ -18,7 +18,8 @@ struct NotificationSettingsView: View {
         Form {
             Section {
                 Toggle("Daily Reminder", isOn: $notificationsEnabled)
-                    .onChange(of: notificationsEnabled) { enabled in
+                    .onChange(of: notificationsEnabled) { oldValue, newValue in
+                        let enabled = newValue
                         if enabled {
                             requestAuthorization { granted in
                                 DispatchQueue.main.async {
@@ -37,7 +38,8 @@ struct NotificationSettingsView: View {
                 
                 if notificationsEnabled {
                     DatePicker("Time", selection: $notificationsTime, displayedComponents: .hourAndMinute)
-                        .onChange(of: notificationsTime) { newTime in
+                        .onChange(of: notificationsTime) { oldValue, newValue in
+                            let newTime = newValue
                             if notificationsEnabled && authorizationGranted {
                                 scheduleNotification(at: newTime)
                             }
@@ -70,7 +72,7 @@ struct NotificationSettingsView: View {
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: ["dailyReminder"])
         
-        var dateComponents = Calendar.current.dateComponents([.hour, .minute], from: date)
+        let dateComponents = Calendar.current.dateComponents([.hour, .minute], from: date)
         let content = UNMutableNotificationContent()
         content.title = "Daily Reminder"
         content.body = "This is your daily reminder."

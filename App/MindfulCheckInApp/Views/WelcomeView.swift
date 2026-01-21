@@ -6,6 +6,7 @@ import Foundation
 import SwiftUI
 
 struct WelcomeView: View {
+    @Environment(\.colorScheme) private var colorScheme
     @AppStorage("hasSeenWelcome") private var hasSeenWelcome: Bool = false
     @AppStorage("hasAcceptedDisclaimer") private var hasAcceptedDisclaimer: Bool = false
     @State private var goForward = false
@@ -72,28 +73,49 @@ struct WelcomeView: View {
                         .padding()
                         .background(
                             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                .fill(Color.green)
+                                .fill(Color.appAccent)
                         )
                         .foregroundStyle(.white)
-                        .shadow(color: Color.green.opacity(0.35), radius: 10, x: 0, y: 6)
+                        .shadow(color: Color.appAccent.opacity(0.35), radius: 10, x: 0, y: 6)
                     }
                     .buttonStyle(.plain)
 
-                    // Hidden navigation used for subsequent launches
-                    NavigationLink("", isActive: $goForward) {
-                        Group {
-                            if hasAcceptedDisclaimer {
-                                MainMenuView()
-                            } else {
-                                DisclaimerView()
-                            }
-                        }
-                        .navigationBarBackButtonHidden(true)
-                    }
-                    .hidden()
+                    // Hidden trigger view for programmatic navigation
+                    Color.clear
+                        .frame(width: 0, height: 0)
+                        .accessibilityHidden(true)
                 }
                 .padding()
                 .navigationBarBackButtonHidden(true)
+                .navigationDestination(isPresented: $goForward) {
+                    Group {
+                        if hasAcceptedDisclaimer {
+                            MainMenuView()
+                        } else {
+                            DisclaimerView()
+                        }
+                    }
+                    .navigationBarBackButtonHidden(true)
+                }
+                .background(
+                    LinearGradient(
+                        colors: [
+                            Color(red: 115/255, green: 255/255, blue: 255/255), // #73FFFF
+                            Color(red: 0/255, green: 251/255, blue: 207/255)    // #00FBCF
+                        ],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                    .opacity(colorScheme == .light ? 0.44 : 0.36)
+                    .blendMode(colorScheme == .light ? .overlay : .plusLighter)
+                    .ignoresSafeArea()
+                )
+                .background(
+                    Color(hue: 0.33, saturation: 0.42, brightness: 0.90)
+                        .opacity(colorScheme == .light ? 0.34 : 0.28)
+                        .blendMode(colorScheme == .light ? .overlay : .plusLighter)
+                        .ignoresSafeArea()
+                )
             }
         }
         .onAppear {

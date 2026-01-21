@@ -33,6 +33,38 @@ extension Color {
     }
 }
 
+extension Color {
+    /// Returns a darker version of the color by reducing brightness by the given amount (0...1)
+    func darkened(by amount: CGFloat = 0.2) -> Color {
+        #if canImport(UIKit)
+        let ui = UIColor(self)
+        var h: CGFloat = 0, s: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        if ui.getHue(&h, saturation: &s, brightness: &b, alpha: &a) {
+            return Color(hue: Double(h), saturation: Double(s), brightness: Double(max(b - amount, 0)), opacity: Double(a))
+        } else {
+            var white: CGFloat = 0
+            if ui.getWhite(&white, alpha: &a) {
+                return Color(white: Double(max(white - amount, 0)), opacity: Double(a))
+            }
+            return self
+        }
+        #elseif canImport(AppKit) && !targetEnvironment(macCatalyst)
+        let ns = NSColor(self)
+        let converted = ns.usingColorSpace(.deviceRGB) ?? ns
+        var h: CGFloat = 0, s: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        converted.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+        return Color(hue: Double(h), saturation: Double(s), brightness: Double(max(b - amount, 0)), opacity: Double(a))
+        #else
+        return self
+        #endif
+    }
+}
+
+extension Color {
+    /// App-wide accent color (darker teal for better contrast)
+    static let appAccent: Color = Color(hex: "#00BFA0")!
+}
+
 extension QuestionTopic {
     /// The main color associated with this topic
     public var color: Color {
@@ -73,9 +105,14 @@ extension QuestionTopic {
         color.opacity(0.35)
     }
 
-    /// The tint color for buttons
+    /// The tint color for buttons (app-wide accent)
     public var buttonTint: Color {
-        color
+        .appAccent
+    }
+
+    /// A darker variant of the topic color suitable for button accents
+    public var darkerTint: Color {
+        color.darkened(by: 0.25)
     }
 }
 

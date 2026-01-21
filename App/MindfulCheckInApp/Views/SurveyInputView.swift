@@ -7,10 +7,12 @@ import SwiftUI
 struct SurveyInputView: View {
     let question: SurveyQuestion
     let onAnswer: (AnswerValue) -> Void
+    @Environment(\.horizontalSizeClass) private var hSize
+    private var isCompact: Bool { hSize == .compact }
 
     @State private var sliderValue: Double = 3
     @State private var selectedChoice: String?
-    
+
     private func sliderTint(for value: Int, higherIsBetter: Bool) -> Color {
         if higherIsBetter {
             switch value {
@@ -59,7 +61,7 @@ struct SurveyInputView: View {
                     // Gradient track background behind the slider
                     ZStack {
                         LinearGradient(colors: gradientColors, startPoint: .leading, endPoint: .trailing)
-                            .frame(height: 10)
+                            .frame(height: CGFloat(isCompact ? 8 : 10))
                             .clipShape(Capsule())
                             .overlay(
                                 Capsule()
@@ -73,28 +75,29 @@ struct SurveyInputView: View {
                             }
                         })
                         .tint(sliderTint(for: Int(sliderValue), higherIsBetter: higherIsBetter))
-                        .padding(.vertical, 8) // visual thickness
+                        .padding(.vertical, CGFloat(isCompact ? 6 : 8)) // visual thickness
                         .accessibilityLabel("How are you feeling scale")
                         .accessibilityValue(AccessibleScaleValue(intValue: Int(sliderValue)).description)
                     }
-                    .padding(.horizontal, 12)
+                    .padding(.horizontal, isCompact ? 16 : 12)
 
                     // Optional end labels for context instead of a number
                     HStack {
-                        Text("Low").font(.caption).foregroundStyle(.secondary)
+                        Text("Low").font(isCompact ? .caption2 : .caption).foregroundStyle(.secondary)
                         Spacer()
-                        Text("High").font(.caption).foregroundStyle(.secondary)
+                        Text("High").font(isCompact ? .caption2 : .caption).foregroundStyle(.secondary)
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, isCompact ? 16 : 12)
                 }
-                .frame(maxWidth: 520)
-                .frame(maxWidth: .infinity, alignment: .center)
+                .controlSize(isCompact ? .small : .regular) //adapts for smaller screen sizes
+                .padding(.horizontal, isCompact ? 16 : 12) //adapts for smaller screen sizes
 
             case .buttonGroup:
                 VStack(spacing: 12) {
                     if let choices = question.options, !choices.isEmpty {
                         // Ensure we only show up to 4 segments (pad or trim as needed)
                         let segments = Array(choices.prefix(4))
+                        let pillHeight: CGFloat = isCompact ? 40 : 48
 
                         ZStack {
                             // Gradient pill background
@@ -108,7 +111,7 @@ struct SurveyInputView: View {
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
-                            .frame(height: 48)
+                            .frame(height: pillHeight)
                             .clipShape(Capsule())
                             .overlay(
                                 Capsule()
@@ -140,14 +143,14 @@ struct SurveyInputView: View {
                                         onAnswer(.choice(choice))
                                     }) {
                                         Text(choice)
-                                            .font(.subheadline.weight(.semibold))
+                                            .font(isCompact ? .footnote.weight(.semibold) : .subheadline.weight(.semibold))
                                             .foregroundColor(.white)
                                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                                             .contentShape(Rectangle())
                                     }
                                 }
                             }
-                            .frame(height: 48)
+                            .frame(height: pillHeight)
                             .clipShape(Capsule())
                             .overlay {
                                 HStack(spacing: 0) {
@@ -170,7 +173,7 @@ struct SurveyInputView: View {
                             }
 
                         }
-                        .frame(height: 48)
+                        .frame(height: pillHeight)
                         .accessibilityElement(children: .contain)
                         .accessibilityLabel("Options")
 
@@ -184,19 +187,16 @@ struct SurveyInputView: View {
                                 .font(.caption2)
                                 .foregroundStyle(.secondary)
                         }
-                        .padding(.horizontal, 4)
+                        .padding(.horizontal, isCompact ? 16 : 12)
                     } else {
                         Text("No options available")
                     }
                 }
-                .frame(maxWidth: 520)
-                .frame(maxWidth: .infinity, alignment: .center)
 
             }
         }
-        .padding(.horizontal, 24)
-        .frame(maxWidth: 520)
-        .frame(maxWidth: .infinity, alignment: .center)
+        .controlSize(isCompact ? .small : .regular)
+        .padding(.horizontal, isCompact ? 16 : 12)
     }
 }
 

@@ -112,7 +112,7 @@ struct PermissionsView: View {
                         .padding()
                         .background(
                             RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                .fill(Color.green)
+                                .fill(Color.appAccent)
                         )
                         .foregroundStyle(.white)
                 }

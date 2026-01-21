@@ -26,7 +26,7 @@ struct ProgressDotsView: View {
                     if index == current {
                         // Current: a slightly wider rounded line
                         Capsule()
-                            .fill(Color.blue)
+                            .fill(Color.appAccent)
                             .frame(width: 22, height: 8)
                     } else if skippedIndices.contains(index) {
                         Text("✕")
@@ -44,8 +44,7 @@ struct ProgressDotsView: View {
                     }
                 }
             }
-            .padding(.horizontal, 24)
-            .frame(maxWidth: 600)
+            .padding(.horizontal, 16)
             .frame(maxWidth: .infinity)
             .mask(
                 LinearGradient(
@@ -60,6 +59,6 @@ struct ProgressDotsView: View {
                 )
             )
         }
-        .frame(maxWidth: .infinity, alignment: .bottom)
     }
 }
+

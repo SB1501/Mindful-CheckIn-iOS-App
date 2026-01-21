@@ -15,9 +15,12 @@ struct SurveyFlowView: View {
     @State private var currentQuestionAnswered = false
     @State private var answeredQuestionIDs: Set<UUID> = []
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.horizontalSizeClass) private var hSize //for scaling and screen size changes
+    private var isCompact: Bool { hSize == .compact } //for scaling and screen size changes
     @State private var showDiscardAlert = false
     @State private var resourceTopicToShow: QuestionTopic? = nil
     @State private var showSummary = false //prevents navigation from going backwards when done
+    @State private var wiggle = false
 
     
     var body: some View {
@@ -44,16 +47,19 @@ struct SurveyFlowView: View {
                     } else if manager.currentIndex < manager.questions.count {
                         let question = manager.questions[manager.currentIndex]
                         
+                        VStack(spacing: 0) {
+                        
                         //TOP HALF for question only and its positioning / style
                         VStack {
                             Spacer()
                             Text(question.title)
-                                .font(.largeTitle)
-                                .multilineTextAlignment(.center)
+                                .font(isCompact ? .title : .largeTitle) //based on screen size instead of one scale hard wired
                                 .lineLimit(nil)
+                                .minimumScaleFactor(0.9) // allow a tiny squeeze if needed
+                                .multilineTextAlignment(.center)
                                 .fixedSize(horizontal: false, vertical: true)
-                                .padding(.horizontal, 32)
-                                .frame(maxWidth: 400)
+                                .padding(.horizontal, isCompact ? 16 : 12)
+                                .frame(maxWidth: isCompact ? 320 : 700)
                             
                             Spacer()
                         } //end of question zone
@@ -69,8 +75,10 @@ struct SurveyFlowView: View {
                                     currentQuestionAnswered = true
                                 }
                             )
+                            .frame(maxWidth: isCompact ? 320 : 600)
                         }
-                        .padding(70)
+                        .padding(.horizontal, isCompact ? 16 : 12)
+                        .padding(.vertical, isCompact ? 16 : 24)
                         //end of controls zone
                         
                         //LOWER - resource and navigation styling / position
@@ -90,13 +98,14 @@ struct SurveyFlowView: View {
                                 Capsule(style: .continuous)
                                     .fill(.ultraThinMaterial)
                             )
-                            Spacer()
                             .overlay(
                                 Capsule(style: .continuous)
-                                    .stroke(question.topic.buttonTint.opacity(0.6), lineWidth: 1)
+                                    .stroke(question.topic.darkerTint.opacity(0.8), lineWidth: 1)
                             )
-                            .foregroundStyle(.primary)
-                            .tint(question.topic.buttonTint)
+                            .foregroundStyle(question.topic.darkerTint)
+                            .tint(question.topic.darkerTint)
+                            
+                            Spacer()
                             
                             if !currentQuestionAnswered {
                                 HStack(spacing: 6) {
@@ -104,27 +113,36 @@ struct SurveyFlowView: View {
                                         .foregroundStyle(.secondary)
                                         .opacity(0.8)
                                     Text("Make a selection to continue")
-                                        .font(.footnote)
+                                        .font(.callout)
                                         .foregroundStyle(.secondary)
                                 }
+                                .rotationEffect(.degrees(wiggle ? 2 : 0))
+                                .transition(.opacity)
+                                .animation(.easeInOut(duration: 0.1).repeatCount(4, autoreverses: true), value: wiggle)
+                                .animation(.easeInOut(duration: 0.25), value: currentQuestionAnswered)
                             }
                             
                             HStack(spacing: 12) {
                                 Button("Back") {
                                     // Move to previous question if possible
                                     if manager.currentIndex > 0 {
-                                        manager.currentIndex -= 1
+                                        withAnimation(.easeInOut(duration: 0.25)) {
+                                            manager.currentIndex -= 1
+                                        }
                                         let q = manager.questions[manager.currentIndex]
                                         currentQuestionAnswered = answeredQuestionIDs.contains(q.id)
                                     }
                                 }
                                 .frame(maxWidth: .infinity)
                                 .buttonStyle(.glassProminent)
+                                .tint((manager.currentIndex < manager.questions.count ? manager.questions[manager.currentIndex].topic.darkerTint : Color.accentColor))
                                 .disabled(manager.currentIndex == 0)
                                 .opacity(manager.currentIndex == 0 ? 0.5 : 1.0)
                                 
                                 Button("Skip") {
-                                    manager.skipQuestion()
+                                    withAnimation(.easeInOut(duration: 0.25)) {
+                                        manager.skipQuestion()
+                                    }
                                     if manager.currentIndex < manager.questions.count {
                                         let q = manager.questions[manager.currentIndex]
                                         currentQuestionAnswered = answeredQuestionIDs.contains(q.id)
@@ -134,9 +152,12 @@ struct SurveyFlowView: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .buttonStyle(.glassProminent)
+                                .tint((manager.currentIndex < manager.questions.count ? manager.questions[manager.currentIndex].topic.darkerTint : Color.accentColor))
                                 
                                 Button("Next") {
-                                    manager.advance()
+                                    withAnimation(.easeInOut(duration: 0.25)) {
+                                        manager.advance()
+                                    }
                                     if manager.currentIndex < manager.questions.count {
                                         let q = manager.questions[manager.currentIndex]
                                         currentQuestionAnswered = answeredQuestionIDs.contains(q.id)
@@ -146,22 +167,46 @@ struct SurveyFlowView: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .buttonStyle(.glassProminent)
+                                .tint((manager.currentIndex < manager.questions.count ? manager.questions[manager.currentIndex].topic.darkerTint : Color.accentColor))
                                 .disabled(!currentQuestionAnswered)
+                                .overlay(
+                                    Group {
+                                        if !currentQuestionAnswered {
+                                            Rectangle()
+                                                .fill(Color.clear)
+                                                .contentShape(Rectangle())
+                                                .onTapGesture {
+                                                    wiggle = false
+                                                    DispatchQueue.main.async {
+                                                        wiggle = true
+                                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+                                                            wiggle = false
+                                                        }
+                                                    }
+                                                }
+                                        }
+                                    }
+                                )
                             }
-                            
-                            .padding( 70 )
+                            .controlSize(isCompact ? .small : .regular) //dynamic sizes
+                            .padding(.horizontal, isCompact ? 16 : 12)
+                            .padding(.vertical, isCompact ? 16 : 24)
+                            .frame(maxWidth: isCompact ? 320 : 600)
                             //end of lower zone
                         }
                         
                         
                         ProgressDotsView(current: manager.currentIndex, total: manager.questions.count)
                             .padding(.bottom, 12)
-                        
+                        }
+                        .transition(.opacity)
+                        .id(manager.currentIndex)
+
                     } else {
                         // Build a session when the survey is complete using accumulated scoring
                         let session = manager.generateSession()
 
-                        VStack(spacing: 24) {
+                        VStack(spacing: 28) {
                             // Hidden link that activates when the button is tapped
                             NavigationLink(isActive: $showSummary) {
                                 SurveySummaryView(
@@ -187,26 +232,26 @@ struct SurveyFlowView: View {
                                 EmptyView()
                             }
 
-                            Spacer()
+                            // Removed Spacer(minLength: 40)
 
                             // Framed emoji to match the app's visual style
                             ZStack {
                                 Circle()
                                     .fill(.ultraThinMaterial)
-                                    .frame(width: 120, height: 120)
+                                    .frame(width: 140, height: 140)
                                     .overlay(
                                         Circle().stroke(Color.primary.opacity(0.15), lineWidth: 1)
                                     )
                                 Text("📋")
-                                    .font(.system(size: 56))
+                                    .font(.system(size: 64))
                                     .accessibilityHidden(true)
                             }
 
                             VStack(spacing: 8) {
                                 Text("Ready to review")
-                                    .font(.title2).bold()
+                                    .font(.largeTitle).bold()
                                 Text("See your check-in summary")
-                                    .font(.subheadline)
+                                    .font(.title3)
                                     .foregroundStyle(.secondary)
                             }
                             .multilineTextAlignment(.center)
@@ -221,14 +266,31 @@ struct SurveyFlowView: View {
                                     Image(systemName: "chevron.right")
                                         .font(.headline)
                                 }
+                                .padding(.vertical, 12)
+                                .padding(.horizontal, 18)
                             }
-                            .frame(maxWidth: 320)
+                            .frame(maxWidth: 360)
                             .buttonStyle(.glassProminent)
                             .accessibilityLabel("View your check-in summary")
 
-                            Spacer()
+                            Spacer(minLength: 20)
                         }
-                        .padding(32)
+                        .frame(maxHeight: .infinity, alignment: .top)
+                        .padding(.top, isCompact ? 40 : 80)
+                        .padding(.horizontal, isCompact ? 20 : 40)
+                        .padding(.bottom, 24)                        .background(
+                            LinearGradient(
+                                colors: [
+                                    Color(red: 115/255, green: 255/255, blue: 255/255),
+                                    Color(red: 0/255, green: 251/255, blue: 207/255)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                            .opacity(0.36)
+                            .blendMode(.plusLighter)
+                            .ignoresSafeArea()
+                        )
                     }
                 }
             }
@@ -243,6 +305,15 @@ struct SurveyFlowView: View {
             if manager.currentIndex < manager.questions.count {
                 let q = manager.questions[manager.currentIndex]
                 currentQuestionAnswered = answeredQuestionIDs.contains(q.id)
+                if !currentQuestionAnswered {
+                    wiggle = false
+                    DispatchQueue.main.async {
+                        wiggle = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) {
+                            wiggle = false
+                        }
+                    }
+                }
             } else {
                 currentQuestionAnswered = false
             }
@@ -258,7 +329,8 @@ struct SurveyFlowView: View {
                         showDiscardAlert = true
                     }
                 }) {
-                    Image(systemName: "xmark.circle.fill")
+                    Image(systemName: "xmark")
+                        .foregroundStyle((manager.currentIndex < manager.questions.count ? manager.questions[manager.currentIndex].topic.darkerTint : Color.primary))
                         .accessibilityLabel("Close")
                 }
             }
@@ -283,16 +355,8 @@ struct SurveyFlowView: View {
                     }
                 }
             }
+            .tint(topic.darkerTint)
         }
     }
     
 }
-
-struct SurveyFlowView_Previews: PreviewProvider {
-    static var previews: some View {
-        NavigationStack {
-            SurveyFlowView()
-        }
-    }
-}
-
