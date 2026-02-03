@@ -232,9 +232,6 @@ struct SurveyFlowView: View {
                                 EmptyView()
                             }
 
-                            // Removed Spacer(minLength: 40)
-
-                            // Framed emoji to match the app's visual style
                             ZStack {
                                 Circle()
                                     .fill(.ultraThinMaterial)
@@ -242,7 +239,7 @@ struct SurveyFlowView: View {
                                     .overlay(
                                         Circle().stroke(Color.primary.opacity(0.15), lineWidth: 1)
                                     )
-                                Text("📋")
+                                Image(systemName: "checkmark.rectangle.stack.fill")
                                     .font(.system(size: 64))
                                     .accessibilityHidden(true)
                             }
@@ -275,7 +272,7 @@ struct SurveyFlowView: View {
 
                             Spacer(minLength: 20)
                         }
-                        .frame(maxHeight: .infinity, alignment: .top)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                         .padding(.top, isCompact ? 40 : 80)
                         .padding(.horizontal, isCompact ? 20 : 40)
                         .padding(.bottom, 24)                        .background(
