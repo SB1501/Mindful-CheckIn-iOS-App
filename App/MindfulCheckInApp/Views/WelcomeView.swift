@@ -30,22 +30,12 @@ struct WelcomeView: View {
 
                     // Big logo placeholder
                     VStack(spacing: 12) {
-                        RoundedRectangle(cornerRadius: 28, style: .continuous)
-                            .fill(.ultraThinMaterial)
-                            .frame(width: 180, height: 180)
-                            .overlay(
-                                Text("🧘‍♀️")
-                                    .font(.system(size: 72))
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 28, style: .continuous)
-                                    .stroke(Color.white.opacity(0.35), lineWidth: 1)
-                            )
+                        Image("logowhitepng")
+                            .resizable()
+                            .scaledToFit()
+                            .padding(16) 
+                            .colorInvert()
                             .shadow(color: Color.black.opacity(0.08), radius: 12, x: 0, y: 8)
-
-                        Text("Mindful Check-In")
-                            .font(.largeTitle).bold()
-                            .foregroundStyle(.primary)
                     }
                     .padding(.top, 8)
 

@@ -53,6 +53,9 @@ struct SurveySummaryView: View {
                 ScrollViewReader { proxy in //for the floating circle scroll prompt
                     ScrollView {
                         VStack(spacing: 20) {
+                            Image(systemName: "checkmark.rectangle.stack.fill")
+                                .font(.system(size: 64))
+                                .accessibilityHidden(true)
                             Text("Check-In Summary")
                                 .font(.title)
                                 .bold()
@@ -65,7 +68,7 @@ struct SurveySummaryView: View {
                                             .fill(.ultraThinMaterial)
                                             .frame(width: 32, height: 32)
                                             .overlay(Circle().stroke(Color.primary.opacity(0.15), lineWidth: 1))
-                                        Text("📝").font(.subheadline)
+                                        Image(systemName: "pencil").font(.subheadline)
                                     }
                                     Text("Add a Reflection Note?")
                                         .font(.headline)
@@ -286,8 +289,9 @@ struct SurveySummaryView: View {
                                             Text("Finish & Save")
                                         }
                                         .font(.headline)
+                                        .frame(maxWidth: .infinity)
+                                        .contentShape(Rectangle())
                                     }
-                                    .frame(maxWidth: .infinity, minHeight: 56)
                                     .buttonStyle(.glassProminent)
 
                                     Button {
@@ -298,12 +302,14 @@ struct SurveySummaryView: View {
                                             Text("Discard Check-In")
                                         }
                                         .font(.headline)
+                                        .frame(maxWidth: .infinity)
+                                        .contentShape(Rectangle())
                                     }
-                                    .frame(maxWidth: .infinity, minHeight: 40)
                                     .buttonStyle(.borderedProminent)
                                     .tint(.red)
                                 }
-                                .padding(.horizontal)
+                                .frame(maxWidth: .infinity)
+                                .controlSize(.large)
                             }
                             
                             // Invisible anchor at the very bottom to scroll to
@@ -311,6 +317,7 @@ struct SurveySummaryView: View {
                                 .frame(height: 1)
                                 .id("bottom")
                         }
+                        .frame(maxWidth: .infinity, alignment: .top)
                         .padding()
                     }
                     .overlay(alignment: .bottom) { //scroll prompt circle at bottom of screen properties

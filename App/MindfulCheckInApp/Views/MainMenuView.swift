@@ -19,7 +19,7 @@ struct MainMenuView: View {
                                 Image("logowhitepng")
                                     .resizable()
                                     .scaledToFit()
-                                    .padding(16) // adjust padding to taste
+                                    .padding(16)
                                     .colorInvert()
                                     .brightness(logoDrift ? 0.02 : -0.02)
                                     .saturation(logoDrift ? 1.02 : 0.98)
