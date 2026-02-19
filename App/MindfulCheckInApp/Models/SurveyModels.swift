@@ -134,10 +134,8 @@ struct SurveyQuestion: Identifiable, Codable {
     let title: String
     let topic: QuestionTopic
     let inputType: InputType
-    let resourceID: UUID?
     var isEnabled: Bool
     var backgroundColorName: String?
-    var backgroundImageName: String?
     let options: [String]?
     var scoring: ScoringRule? // Optional per-question scoring rules
 }

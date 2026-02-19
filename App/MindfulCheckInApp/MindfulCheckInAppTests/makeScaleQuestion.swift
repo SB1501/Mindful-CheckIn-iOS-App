@@ -16,10 +16,8 @@ func makeScaleQuestion(topic: QuestionTopic,
         title: "Test \(topic.displayName)",
         topic: topic,
         inputType: .slider,
-        resourceID: nil,
         isEnabled: true,
         backgroundColorName: nil,
-        backgroundImageName: nil,
         options: nil,
         scoring: scoring
     )
