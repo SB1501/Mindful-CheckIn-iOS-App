@@ -1,0 +1,60 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# Xcode
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+
+# Xcode user data
+**/xcuserdata/
+
+# Derived data and build products
+DerivedData/
+build/
+Build/
+
+# Swift Package Manager
+.swiftpm/
+.build/
+
+# CocoaPods (if used)
+Pods/
+
+# Carthage (if used)
+Carthage/Build/
+
+# Fastlane (if used)
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
+
+# Archives
+*.xcarchive
+
+# Logs
+*.log
+
+# Temporary files
+*.swp
+*.swo
+*.tmp
+~$*
+
+# Simulator devices (if any custom exports)
+*.simdevice
+
+# Ignore user-specific workspace settings
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+
+# Package.resolved can be tracked, but if you prefer to ignore lockfiles, uncomment:
+# Package.resolved
