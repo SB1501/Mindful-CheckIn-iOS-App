@@ -48,7 +48,7 @@ fastlane/test_output
 *.tmp
 ~$*
 
-# Simulator devices (if any custom exports)
+# Simulator devices
 *.simdevice
 
 # Ignore user-specific workspace settings
