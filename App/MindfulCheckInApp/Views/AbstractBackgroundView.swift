@@ -142,10 +142,30 @@ private struct LCG { //LCG is a Linear Congruential Generator, visible only in t
 }
 
 
-struct PreviewHarness: View {
-    var body: some View {
-        AbstractBackgroundView()
-            .frame(width: 400, height: 800)
+#Preview("Abstract Background – Dark + Overlay") {
+    ZStack {
+        AbstractBackgroundView(
+            colors: [.blue, .purple, .pink, .orange],
+            circleCount: 6,
+            blurRadius: 60,
+            seed: 7
+        )
+        .ignoresSafeArea()
+
+        LinearGradient(
+            colors: [
+                Color(red: 115/255, green: 255/255, blue: 255/255),
+                Color(red: 0/255, green: 251/255, blue: 207/255)
+            ],
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+        )
+        .opacity(0.36)          // constant values for preview
+        .blendMode(.plusLighter)
+        .ignoresSafeArea()
     }
+    .frame(width: 2868, height: 1320)
+    .preferredColorScheme(.dark)
+
 }
 

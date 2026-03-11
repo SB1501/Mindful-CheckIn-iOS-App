@@ -207,31 +207,6 @@ struct SurveyFlowView: View {
                         let session = manager.generateSession()
 
                         VStack(spacing: 28) {
-                            // Hidden link that activates when the button is tapped
-                            NavigationLink(isActive: $showSummary) {
-                                SurveySummaryView(
-                                    session: session,
-                                    questions: manager.questions,
-                                    onFinish: {
-                                        // Pop summary, then dismiss the survey flow back to Main Menu
-                                        showSummary = false
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                                            dismiss()
-                                        }
-                                    },
-                                    onDelete: {
-                                        // Pop summary, then dismiss the survey flow back to Main Menu
-                                        showSummary = false
-                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                                            dismiss()
-                                        }
-                                    }
-                                )
-                                .navigationBarBackButtonHidden(true)
-                            } label: {
-                                EmptyView()
-                            }
-
                             ZStack {
                                 Circle()
                                     .fill(.ultraThinMaterial)
@@ -288,6 +263,27 @@ struct SurveyFlowView: View {
                             .blendMode(.plusLighter)
                             .ignoresSafeArea()
                         )
+                        .navigationDestination(isPresented: $showSummary) {
+                            SurveySummaryView(
+                                session: session,
+                                questions: manager.questions,
+                                onFinish: {
+                                    // Pop summary, then dismiss the survey flow back to Main Menu
+                                    showSummary = false
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                                        dismiss()
+                                    }
+                                },
+                                onDelete: {
+                                    // Pop summary, then dismiss the survey flow back to Main Menu
+                                    showSummary = false
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                                        dismiss()
+                                    }
+                                }
+                            )
+                            .navigationBarBackButtonHidden(true)
+                        }
                     }
                 }
             }

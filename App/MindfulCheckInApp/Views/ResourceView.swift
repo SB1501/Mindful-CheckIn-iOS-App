@@ -4,9 +4,11 @@
 import Foundation
 import SwiftUI
 
-struct ResourceView: View {
-    let topic: QuestionTopic
-    @State private var showingDisclaimer = false
+struct ResourceView: View { //main struct to define this class
+    
+    let topic: QuestionTopic //classwide constant of topic which holds the QuestionTopic when this resource view is called, it must be called with one of the question topics to show
+    
+    @State private var showingDisclaimer = false // @State variable which controls the disclaimer view based on a button press defined below
 
     var body: some View {
         ZStack {
@@ -167,3 +169,6 @@ struct ResourceView: View {
     }
 }
 
+#Preview {
+    ResourceView(topic: .hydration)
+}

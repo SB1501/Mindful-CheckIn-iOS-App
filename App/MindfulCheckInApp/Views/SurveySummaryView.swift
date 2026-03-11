@@ -99,20 +99,25 @@ struct SurveySummaryView: View {
                             // Flagged Topics
                             if !flaggedTopics.isEmpty {
                                 VStack(alignment: .leading, spacing: 10) {
-                                    Text("🔴 Things to be Mindful of")
-                                        .font(.title3)
-                                        .fontWeight(.semibold)
-
+                                    HStack{
+                                        Text("Things to be Mindful of:")
+                                            .font(.title)
+                                            .fontWeight(.heavy)
+                                    }
+                                    
                                     ForEach(Array(flaggedTopics.enumerated()), id: \.offset) { pair in
                                         let topic = pair.element
                                         NavigationLink(destination: ResourceView(topic: topic)) {
                                             HStack(alignment: .center, spacing: 12) {
                                                 ZStack {
                                                     Circle()
-                                                        .fill(.ultraThinMaterial)
-                                                        .frame(width: 32, height: 32)
+                                                        .fill(Color.red)
+                                                        .frame(width: 36, height: 36)
                                                         .overlay(Circle().stroke(Color.primary.opacity(0.15), lineWidth: 1))
-                                                    Text("🔴").font(.subheadline)
+                                                    Image(systemName: topic.symbolName)
+                                                        .font(.title2)
+                                                        .foregroundStyle(.white)
+                                                    
                                                 }
                                                 VStack(alignment: .leading, spacing: 4) {
                                                     Text(topic.displayName)
@@ -141,25 +146,30 @@ struct SurveySummaryView: View {
                                 }
                                 .padding(.vertical)
                             }
-
+                            
+                            
                             // Neutral Topics
                             if !neutralTopics.isEmpty {
                                 VStack(alignment: .leading, spacing: 10) {
-                                    Text("🟡 Things you're doing okay on")
-                                        .font(.title3)
-                                        .fontWeight(.semibold)
-
+                                        HStack{
+                                            Text("Things you're doing okay on:")
+                                                .font(.title)
+                                                .fontWeight(.heavy)
+                                        }
                                     ForEach(Array(neutralTopics.enumerated()), id: \.offset) { pair in
                                         let topic = pair.element
                                         NavigationLink(destination: ResourceView(topic: topic)) {
                                             HStack(alignment: .center, spacing: 12) {
                                                 ZStack {
                                                     Circle()
-                                                        .fill(.ultraThinMaterial)
-                                                        .frame(width: 32, height: 32)
+                                                        .fill(Color.yellow)
+                                                        .frame(width: 36, height: 36)
                                                         .overlay(Circle().stroke(Color.primary.opacity(0.15), lineWidth: 1))
-                                                    Text("🟡").font(.subheadline)
+                                                    Image(systemName: topic.symbolName)
+                                                        .font(.title2)
+                                                        .foregroundStyle(.black.opacity(0.70))
                                                 }
+                                                
                                                 VStack(alignment: .leading, spacing: 4) {
                                                     Text(topic.displayName)
                                                         .font(.headline)
@@ -192,20 +202,24 @@ struct SurveySummaryView: View {
                             // Positive Topics
                             if !positiveTopics.isEmpty {
                                 VStack(alignment: .leading, spacing: 10) {
-                                    Text("🟢 Things you're doing well on")
-                                        .font(.title3)
-                                        .fontWeight(.semibold)
-
+                                    HStack{
+                                        Text("Things you're doing well on:")
+                                            .font(.title)
+                                            .fontWeight(.heavy)
+                                    }
                                     ForEach(Array(positiveTopics.enumerated()), id: \.offset) { pair in
                                         let topic = pair.element
                                         NavigationLink(destination: ResourceView(topic: topic)) {
                                             HStack(alignment: .center, spacing: 12) {
                                                 ZStack {
+                                                    
                                                     Circle()
-                                                        .fill(.ultraThinMaterial)
-                                                        .frame(width: 32, height: 32)
+                                                        .fill(Color.green)
+                                                        .frame(width: 36, height: 36)
                                                         .overlay(Circle().stroke(Color.primary.opacity(0.15), lineWidth: 1))
-                                                    Text("🟢").font(.subheadline)
+                                                    Image(systemName: topic.symbolName)
+                                                        .font(.title2)
+                                                        .foregroundStyle(.white)
                                                 }
                                                 VStack(alignment: .leading, spacing: 4) {
                                                     Text(topic.displayName)
@@ -255,9 +269,6 @@ struct SurveySummaryView: View {
                                                 Text(topic.displayName)
                                                     .font(.headline)
                                                     .fontWeight(.semibold)
-                                                Text("Skipped")
-                                                    .font(.subheadline)
-                                                    .foregroundStyle(.secondary)
                                             }
                                             Spacer()
                                         }
