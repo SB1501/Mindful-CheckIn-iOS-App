@@ -157,7 +157,7 @@ struct SettingsView: View {
                             }
                             VStack(alignment: .leading, spacing: 2) {
                                 Text("License Info").font(.title2).bold()
-                                Text("CC BY-NC 4.0").font(.subheadline).foregroundStyle(.secondary)
+                                Text("MIT License").font(.subheadline).foregroundStyle(.secondary)
                             }
                             Spacer()
                             Image(systemName: "chevron.right").foregroundColor(.gray)
@@ -201,8 +201,43 @@ struct SettingsView: View {
                             .stroke(Color.white.opacity(0.25), lineWidth: 1)
                     )
 
-                    // Review on the App Store
-                    Button(action: { UIApplication.shared.open(appReviewURL) }) {
+//                    // Review on the App Store
+//                    Button(action: { UIApplication.shared.open(appReviewURL) }) {
+//                        HStack(spacing: 12) {
+//                            ZStack {
+//                                Circle()
+//                                    .fill(.ultraThinMaterial)
+//                                    .frame(width: 44, height: 44)
+//                                    .overlay(
+//                                        Circle().stroke(Color.white.opacity(0.25), lineWidth: 1)
+//                                    )
+//                                Image(systemName: "star").font(.title3)
+//                            }
+//                            VStack(alignment: .leading, spacing: 2) {
+//                                Text("Review on the App Store").font(.title2).bold()
+//                                Text("Tell the world what you think!").font(.subheadline).foregroundStyle(.secondary)
+//                            }
+//                            Spacer()
+//                            Image(systemName: "chevron.right").foregroundColor(.gray)
+//                        }
+//                        .padding()
+//                        .background(
+//                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+//                                .fill(.ultraThinMaterial)
+//                        )
+//                        .overlay(
+//                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+//                                .stroke(Color.white.opacity(0.25), lineWidth: 1)
+//                        )
+//                    }
+//                    .buttonStyle(.plain)
+
+                    // Buy Me a Coffee (donation)
+                    Button(action: {
+                        if let url = URL(string: "https://buymeacoffee.com/shanebunting") {
+                            UIApplication.shared.open(url)
+                        }
+                    }) {
                         HStack(spacing: 12) {
                             ZStack {
                                 Circle()
@@ -211,11 +246,11 @@ struct SettingsView: View {
                                     .overlay(
                                         Circle().stroke(Color.white.opacity(0.25), lineWidth: 1)
                                     )
-                                Image(systemName: "star").font(.title3)
+                                Image(systemName: "cup.and.saucer").font(.title3)
                             }
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Review on the App Store").font(.title2).bold()
-                                Text("Tell the world what you think!").font(.subheadline).foregroundStyle(.secondary)
+                                Text("Buy Me a Coffee").font(.title2).bold()
+                                Text("Support the apps development").font(.subheadline).foregroundStyle(.secondary)
                             }
                             Spacer()
                             Image(systemName: "chevron.right").foregroundColor(.gray)
@@ -386,43 +421,43 @@ struct LicenseInfoView: View {
                 Text("License")
                     .font(.title).bold()
 
-                Text("This project is shared to help others and to put something positive out there. You’re welcome to read the code and build on it for personal or educational use. The full code can be found on GitHub (SB1501).")
+                Text("This project is open for reuse as a portfolio piece with real‑world utility. You’re welcome to read the code, learn from it, and reuse it in your own projects under the terms of the MIT License. The full code can be found on GitHub (SB1501).")
 
                 Group {
-                    Text("License: CC BY‑NC 4.0")
+                    Text("License: MIT License")
                         .font(.headline)
-                    Text("Attribution‑NonCommercial 4.0 International")
+                    Text("A permissive open‑source license allowing reuse with attribution")
                         .foregroundStyle(.secondary)
                     Text("Summary")
                         .font(.headline)
-                    Text("• You may copy, modify, and share the project.")
-                    Text("• You must provide appropriate credit.")
-                    Text("• You may not use the project for commercial purposes (no selling, monetisation, or use within paid products/services).")
+                    Text("• You may use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software.")
+                    Text("• Attribution is appreciated by including the copyright notice and license text in copies or substantial portions of the software.")
+                    Text("• The software is provided without warranty of any kind.")
                 }
 
                 Group {
                     Text("Notes")
                         .font(.headline)
-                    Text("• Creative Commons licenses are commonly used for content (text, media). They can be used here to express the intent that this app and its code are for non‑commercial use only.")
+                    Text("MIT is a widely used, OSI‑approved license that enables broad reuse, including commercial use. This aligns with your intent to make the project freely reusable as part of your portfolio.")
                 }
 
                 Group {
                     Text("No warranty")
                         .font(.headline)
-                    Text("The project is provided \"as is\", without warranty of any kind.")
+                    Text("THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.")
                 }
 
                 Group {
                     Text("Commercial use")
                         .font(.headline)
-                    Text("For any commercial interest, please contact the Shane Bunting for permission.")
+                    Text("Commercial use is permitted under the MIT License. If you use this project, attribution is appreciated.")
                 }
 
                 Group {
                     Text("Learn more")
                         .font(.headline)
-                    if let url = URL(string: "https://creativecommons.org/licenses/by-nc/4.0/") {
-                        Link("Creative Commons BY‑NC 4.0 (official summary)", destination: url)
+                    if let url = URL(string: "https://opensource.org/license/mit/") {
+                        Link("MIT License (opensource.org)", destination: url)
                     }
                 }
             }
@@ -432,3 +467,6 @@ struct LicenseInfoView: View {
     }
 }
 
+#Preview {
+    SettingsView()
+}

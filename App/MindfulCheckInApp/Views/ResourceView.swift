@@ -31,14 +31,22 @@ struct ResourceView: View { //main struct to define this class
                     Divider()
 
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("What & Why")
-                            .font(.title3).bold()
-                            .foregroundStyle(.primary)
+                        HStack {
+                            ZStack{
+                                Circle()
+                                    .frame(width: 30, height: 30)
+                                    .foregroundStyle(.white)
+                                Image(systemName: "questionmark.circle")
+                                    .foregroundStyle(.black)
+                            }
+                            Text("What & Why")
+                                .font(.title3).bold()
+                                .foregroundStyle(.primary)
+                        }
                         VStack(alignment: .leading, spacing: 6) {
                             ForEach(topic.resourceWhatWhy.split(separator: "\n").map(String.init), id: \.self) { line in
                                 if !line.trimmingCharacters(in: .whitespaces).isEmpty {
                                     HStack(alignment: .firstTextBaseline, spacing: 8) {
-                                        Text("•")
                                         Text(line)
                                     }
                                 }
@@ -57,14 +65,25 @@ struct ResourceView: View { //main struct to define this class
                     )
 
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Positives of Minding It")
-                            .font(.title3).bold()
-                            .foregroundStyle(.primary)
+                        HStack {
+                            ZStack{
+                                Circle()
+                                    .frame(width: 30, height: 30)
+                                    .foregroundStyle(.white)
+                                Image(systemName: "bolt.fill")
+                                    .foregroundStyle(.black)
+                            }
+                            Text("Positives of Minding It")
+                                .font(.title3).bold()
+                                .foregroundStyle(.primary)
+                        }
                         VStack(alignment: .leading, spacing: 6) {
                             ForEach(topic.resourcePositives.split(separator: "\n").map(String.init), id: \.self) { line in
                                 if !line.trimmingCharacters(in: .whitespaces).isEmpty {
                                     HStack(alignment: .firstTextBaseline, spacing: 8) {
-                                        Text("•")
+                                        Circle()
+                                            .frame(width: 12, height: 12)
+                                            .foregroundStyle(.secondary)
                                         Text(line)
                                     }
                                 }
@@ -75,7 +94,7 @@ struct ResourceView: View { //main struct to define this class
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .background(
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
-                            .fill(.thinMaterial)
+                            .fill(.ultraThinMaterial)
                     )
                     .overlay(
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
@@ -83,14 +102,25 @@ struct ResourceView: View { //main struct to define this class
                     )
 
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Risks of Neglecting It")
-                            .font(.title3).bold()
-                            .foregroundStyle(.primary)
+                        HStack {
+                            ZStack{
+                                Circle()
+                                    .frame(width: 30, height: 30)
+                                    .foregroundStyle(.white)
+                                Image(systemName: "chart.line.downtrend.xyaxis")
+                                    .foregroundStyle(.black)
+                            }
+                            Text("Risks of Neglecting It")
+                                .font(.title3).bold()
+                                .foregroundStyle(.primary)
+                        }
                         VStack(alignment: .leading, spacing: 6) {
                             ForEach(topic.resourceRisks.split(separator: "\n").map(String.init), id: \.self) { line in
                                 if !line.trimmingCharacters(in: .whitespaces).isEmpty {
                                     HStack(alignment: .firstTextBaseline, spacing: 8) {
-                                        Text("•")
+                                        Circle()
+                                            .frame(width: 12, height: 12)
+                                            .foregroundStyle(.secondary)
                                         Text(line)
                                     }
                                 }
@@ -109,14 +139,25 @@ struct ResourceView: View { //main struct to define this class
                     )
 
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Tips for Managing")
-                            .font(.title3).bold()
-                            .foregroundStyle(.primary)
+                        HStack {
+                            ZStack{
+                                Circle()
+                                    .frame(width: 30, height: 30)
+                                    .foregroundStyle(.white)
+                                Image(systemName: "info")
+                                    .foregroundStyle(.black)
+                            }
+                            Text("Tips for Managing")
+                                .font(.title3).bold()
+                                .foregroundStyle(.primary)
+                        }
                         VStack(alignment: .leading, spacing: 6) {
                             ForEach(topic.resourceTips.split(separator: "\n").map(String.init), id: \.self) { line in
                                 if !line.trimmingCharacters(in: .whitespaces).isEmpty {
                                     HStack(alignment: .firstTextBaseline, spacing: 8) {
-                                        Text("•")
+                                        Circle()
+                                            .frame(width: 12, height: 12)
+                                            .foregroundStyle(.secondary)
                                         Text(line)
                                     }
                                 }
