@@ -9,41 +9,46 @@ struct ResourceView: View { //main struct to define this class
     let topic: QuestionTopic //classwide constant of topic which holds the QuestionTopic when this resource view is called, it must be called with one of the question topics to show
     
     @State private var showingDisclaimer = false // @State variable which controls the disclaimer view based on a button press defined below
-
-    var body: some View {
-        ZStack {
-            topic.backgroundColor.ignoresSafeArea()
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
+    
+    var body: some View { //defines what is drawn on screen of the UI, mandatory for View protocol
+        
+        ZStack { //what follows it front to back as defined
+            
+            topic.backgroundColor.ignoresSafeArea() //allows background colour belonging to each topic area to show full screen
+            
+            ScrollView { //main container for scrollable content view on screen
+                
+                VStack(alignment: .leading, spacing: 24) { //Top section: icon, title, summary
+                    
                     HStack(alignment: .firstTextBaseline, spacing: 12) {
-                        Image(systemName: topic.symbolName)
+                        Image(systemName: topic.symbolName) //icon
                             .font(.system(size: 34, weight: .semibold))
                             .foregroundStyle(.white)
-                        Text(topic.resourceTitle)
+                        Text(topic.resourceTitle) //title
                             .font(.system(size: 40, weight: .bold))
                             .multilineTextAlignment(.leading)
                     }
-
-                    Text(topic.resourceSummary)
+                    Text(topic.resourceSummary) //summary
                         .font(.title3)
                         .foregroundStyle(.primary)
-
-                    Divider()
-
-                    VStack(alignment: .leading, spacing: 8) {
+                    
+                    Spacer()
+                    
+                    VStack(alignment: .leading, spacing: 8) { //WHAT AND WHY SECTION
                         HStack {
-                            ZStack{
+                            ZStack{ //icon and circle
                                 Circle()
                                     .frame(width: 30, height: 30)
                                     .foregroundStyle(.white)
                                 Image(systemName: "questionmark.circle")
                                     .foregroundStyle(.black)
                             }
-                            Text("What & Why")
+                            Text("What & Why") //sub heading
                                 .font(.title3).bold()
                                 .foregroundStyle(.primary)
                         }
-                        VStack(alignment: .leading, spacing: 6) {
+                        Divider()
+                        VStack(alignment: .leading, spacing: 6) { //actual content on new lines, parsed
                             ForEach(topic.resourceWhatWhy.split(separator: "\n").map(String.init), id: \.self) { line in
                                 if !line.trimmingCharacters(in: .whitespaces).isEmpty {
                                     HStack(alignment: .firstTextBaseline, spacing: 8) {
@@ -57,14 +62,15 @@ struct ResourceView: View { //main struct to define this class
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .background(
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
-                            .fill(.thinMaterial)
+                            .fill(.ultraThinMaterial)
                     )
                     .overlay(
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
                             .stroke(topic.color.opacity(0.25), lineWidth: 1)
                     )
-
-                    VStack(alignment: .leading, spacing: 8) {
+                    
+                    
+                    VStack(alignment: .leading, spacing: 8) { //POSITIVES SECTION
                         HStack {
                             ZStack{
                                 Circle()
@@ -77,6 +83,7 @@ struct ResourceView: View { //main struct to define this class
                                 .font(.title3).bold()
                                 .foregroundStyle(.primary)
                         }
+                        Divider()
                         VStack(alignment: .leading, spacing: 6) {
                             ForEach(topic.resourcePositives.split(separator: "\n").map(String.init), id: \.self) { line in
                                 if !line.trimmingCharacters(in: .whitespaces).isEmpty {
@@ -100,8 +107,8 @@ struct ResourceView: View { //main struct to define this class
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
                             .stroke(topic.color.opacity(0.25), lineWidth: 1)
                     )
-
-                    VStack(alignment: .leading, spacing: 8) {
+                    
+                    VStack(alignment: .leading, spacing: 8) { //NEGATIVES SECTION
                         HStack {
                             ZStack{
                                 Circle()
@@ -114,6 +121,7 @@ struct ResourceView: View { //main struct to define this class
                                 .font(.title3).bold()
                                 .foregroundStyle(.primary)
                         }
+                        Divider()
                         VStack(alignment: .leading, spacing: 6) {
                             ForEach(topic.resourceRisks.split(separator: "\n").map(String.init), id: \.self) { line in
                                 if !line.trimmingCharacters(in: .whitespaces).isEmpty {
@@ -131,14 +139,15 @@ struct ResourceView: View { //main struct to define this class
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .background(
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
-                            .fill(.thinMaterial)
+                            .fill(.ultraThinMaterial)
                     )
                     .overlay(
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
                             .stroke(topic.color.opacity(0.25), lineWidth: 1)
                     )
-
-                    VStack(alignment: .leading, spacing: 8) {
+                    
+                    
+                    VStack(alignment: .leading, spacing: 8) { //MANAGING SECTION
                         HStack {
                             ZStack{
                                 Circle()
@@ -151,6 +160,7 @@ struct ResourceView: View { //main struct to define this class
                                 .font(.title3).bold()
                                 .foregroundStyle(.primary)
                         }
+                        Divider()
                         VStack(alignment: .leading, spacing: 6) {
                             ForEach(topic.resourceTips.split(separator: "\n").map(String.init), id: \.self) { line in
                                 if !line.trimmingCharacters(in: .whitespaces).isEmpty {
@@ -168,16 +178,16 @@ struct ResourceView: View { //main struct to define this class
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .background(
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
-                            .fill(.thinMaterial)
+                            .fill(.ultraThinMaterial)
                     )
                     .overlay(
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
                             .stroke(topic.color.opacity(0.25), lineWidth: 1)
                     )
-
-                    Divider()
-
-                    Button {
+                    
+                    Spacer()
+                    
+                    Button { //DISCLAIMER BUTTON
                         showingDisclaimer = true
                     } label: {
                         HStack(spacing: 8) {
@@ -189,7 +199,7 @@ struct ResourceView: View { //main struct to define this class
                         .padding(.vertical, 14)
                         .padding(.horizontal)
                         
-
+                        
                     }
                     .buttonStyle(.glassProminent)
                     .tint(.red)
@@ -198,8 +208,10 @@ struct ResourceView: View { //main struct to define this class
                     }
                 }
                 .padding()
-            }
-            .background(.thinMaterial)
+                
+            } //end of ScrollView
+            
+            //.background(.thinMaterial)
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
@@ -207,9 +219,10 @@ struct ResourceView: View { //main struct to define this class
                 EmptyView()
             }
         }
-    }
-}
-
+    } //end of main body View
+    
+} //end of struct for this class ResourceView
+ 
 #Preview {
-    ResourceView(topic: .hydration)
+    ResourceView(topic: .sleep)
 }

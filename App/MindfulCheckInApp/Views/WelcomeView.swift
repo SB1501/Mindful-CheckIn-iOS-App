@@ -87,25 +87,6 @@ struct WelcomeView: View {
                     }
                     .navigationBarBackButtonHidden(true)
                 }
-                .background(
-                    LinearGradient(
-                        colors: [
-                            Color(red: 115/255, green: 255/255, blue: 255/255), // #73FFFF
-                            Color(red: 0/255, green: 251/255, blue: 207/255)    // #00FBCF
-                        ],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                    .opacity(colorScheme == .light ? 0.44 : 0.36)
-                    .blendMode(colorScheme == .light ? .overlay : .plusLighter)
-                    .ignoresSafeArea()
-                )
-                .background(
-                    Color(hue: 0.33, saturation: 0.42, brightness: 0.90)
-                        .opacity(colorScheme == .light ? 0.34 : 0.28)
-                        .blendMode(colorScheme == .light ? .overlay : .plusLighter)
-                        .ignoresSafeArea()
-                )
             }
         }
         .onAppear {
@@ -115,6 +96,5 @@ struct WelcomeView: View {
                 DispatchQueue.main.async { goForward = true }
             }
         }
-    }
-}
+    }}
 
