@@ -3,41 +3,43 @@
 
 import Foundation
 import SwiftUI
-import UniformTypeIdentifiers
+import UniformTypeIdentifiers //used for handling JSON files in functions within this class
 
+//CUSTOM DEFINED LIQUID GLASS STYLE CARD FOR EACH SETTINGS BUTTON / ROW
 struct LiquidGlassCard<Content: View>: View {
     var cornerRadius: CGFloat = 20
     @ViewBuilder var content: Content
 
-    var body: some View {
+    var body: some View { //child content that renders inside each card
         content
-            .padding()
-            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
-            .overlay(
-                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
-                    .stroke(Color.white.opacity(0.25), lineWidth: 1)
+            .padding() //internal spacing
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)) //Apple's translucent 'material' background with rounded corners
+            .overlay( //subtle outline
+                RoundedRectangle(cornerRadius: cornerRadius, style: .continuous) //rounded corners
+                    .stroke(Color.white.opacity(0.25), lineWidth: 1) //outline
             )
             .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 8)
     }
-}
+} //end of LiquidGlassCard
 
-struct ExportTextDocument: FileDocument {
-    static var readableContentTypes: [UTType] { [.plainText] }
-    var text: String
-    init(text: String = "") { self.text = text }
-    init(configuration: ReadConfiguration) throws {
+struct ExportTextDocument: FileDocument { //Document type for exporting to a txt file when used from settings for user data
+    static var readableContentTypes: [UTType] { [.plainText] } //declaring support for plain text as a file type
+    var text: String //content of document
+    init(text: String = "") { self.text = text } //default initialise with nothing inside
+    init(configuration: ReadConfiguration) throws { //required to initialise and load from an existing file (survey records)
         if let data = configuration.file.regularFileContents, let string = String(data: data, encoding: .utf8) {
-            text = string
+            text = string //decode UTF-8 data into text, or default to an empty on failure:
         } else {
             text = ""
         }
-    }
-    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        let data = text.data(using: .utf8) ?? Data()
+    } //end of load initialiser
+    func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper { //function to write file to disk
+        let data = text.data(using: .utf8) ?? Data() //encode text as UTF-8 wrap for export
         return .init(regularFileWithContents: data)
     }
 }
 
+//MAIN SETTINGS VIEW SCREEN SHOWN
 struct SettingsView: View {
     @StateObject private var store = SurveyStore.shared
     @State private var showDeleteAllAlert = false
@@ -67,7 +69,7 @@ struct SettingsView: View {
         return URL(string: urlString)
     }
 
-    private let appReviewURL = URL(string: "https://apps.apple.com/app/idYOUR_APP_ID?action=write-review")!
+    private let appReviewURL = URL(string: "https://apps.apple.com/gb/app/mindful-check-in/id6758107607?action=write-review")!
 
     var body: some View {
         AppShell {
@@ -201,43 +203,8 @@ struct SettingsView: View {
                             .stroke(Color.white.opacity(0.25), lineWidth: 1)
                     )
 
-//                    // Review on the App Store
-//                    Button(action: { UIApplication.shared.open(appReviewURL) }) {
-//                        HStack(spacing: 12) {
-//                            ZStack {
-//                                Circle()
-//                                    .fill(.ultraThinMaterial)
-//                                    .frame(width: 44, height: 44)
-//                                    .overlay(
-//                                        Circle().stroke(Color.white.opacity(0.25), lineWidth: 1)
-//                                    )
-//                                Image(systemName: "star").font(.title3)
-//                            }
-//                            VStack(alignment: .leading, spacing: 2) {
-//                                Text("Review on the App Store").font(.title2).bold()
-//                                Text("Tell the world what you think!").font(.subheadline).foregroundStyle(.secondary)
-//                            }
-//                            Spacer()
-//                            Image(systemName: "chevron.right").foregroundColor(.gray)
-//                        }
-//                        .padding()
-//                        .background(
-//                            RoundedRectangle(cornerRadius: 12, style: .continuous)
-//                                .fill(.ultraThinMaterial)
-//                        )
-//                        .overlay(
-//                            RoundedRectangle(cornerRadius: 12, style: .continuous)
-//                                .stroke(Color.white.opacity(0.25), lineWidth: 1)
-//                        )
-//                    }
-//                    .buttonStyle(.plain)
-
-                    // Buy Me a Coffee (donation)
-                    Button(action: {
-                        if let url = URL(string: "https://buymeacoffee.com/shanebunting") {
-                            UIApplication.shared.open(url)
-                        }
-                    }) {
+                    // Review on the App Store
+                    Button(action: { UIApplication.shared.open(appReviewURL) }) {
                         HStack(spacing: 12) {
                             ZStack {
                                 Circle()
@@ -246,11 +213,11 @@ struct SettingsView: View {
                                     .overlay(
                                         Circle().stroke(Color.white.opacity(0.25), lineWidth: 1)
                                     )
-                                Image(systemName: "cup.and.saucer").font(.title3)
+                                Image(systemName: "star").font(.title3)
                             }
                             VStack(alignment: .leading, spacing: 2) {
-                                Text("Buy Me a Coffee").font(.title2).bold()
-                                Text("Support the apps development").font(.subheadline).foregroundStyle(.secondary)
+                                Text("Review on the App Store").font(.title2).bold()
+                                Text("Tell the world what you think!").font(.subheadline).foregroundStyle(.secondary)
                             }
                             Spacer()
                             Image(systemName: "chevron.right").foregroundColor(.gray)
@@ -266,6 +233,41 @@ struct SettingsView: View {
                         )
                     }
                     .buttonStyle(.plain)
+
+                    // Buy Me a Coffee (REMOVED UNTIL I FIGURE OUT APP STORE ROUTE TO DO THIS)
+//                    Button(action: {
+//                        if let url = URL(string: "https://buymeacoffee.com/shanebunting") {
+//                            UIApplication.shared.open(url)
+//                        }
+//                    }) {
+//                        HStack(spacing: 12) {
+//                            ZStack {
+//                                Circle()
+//                                    .fill(.ultraThinMaterial)
+//                                    .frame(width: 44, height: 44)
+//                                    .overlay(
+//                                        Circle().stroke(Color.white.opacity(0.25), lineWidth: 1)
+//                                    )
+//                                Image(systemName: "cup.and.saucer").font(.title3)
+//                            }
+//                            VStack(alignment: .leading, spacing: 2) {
+//                                Text("Buy Me a Coffee").font(.title2).bold()
+//                                Text("Support the apps development").font(.subheadline).foregroundStyle(.secondary)
+//                            }
+//                            Spacer()
+//                            Image(systemName: "chevron.right").foregroundColor(.gray)
+//                        }
+//                        .padding()
+//                        .background(
+//                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+//                                .fill(.ultraThinMaterial)
+//                        )
+//                        .overlay(
+//                            RoundedRectangle(cornerRadius: 12, style: .continuous)
+//                                .stroke(Color.white.opacity(0.25), lineWidth: 1)
+//                        )
+//                    }
+//                    .buttonStyle(.plain)
 
                     // Send Feedback
                     Button(action: { if let url = feedbackURL { UIApplication.shared.open(url) } }) {
