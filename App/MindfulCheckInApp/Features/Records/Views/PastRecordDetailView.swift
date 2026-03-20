@@ -137,4 +137,3 @@ private struct TopicGroupView: View {
         }
     }
 }
-

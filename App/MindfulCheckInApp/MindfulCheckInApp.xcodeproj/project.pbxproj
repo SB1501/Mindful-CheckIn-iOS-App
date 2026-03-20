@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		7E97FA962F6D60FA000E6069 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 7E97FA942F6D60FA000E6069 /* .gitignore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		7E9251622F2A520400E08D98 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,20 +31,43 @@
 		7E324D132E7F067A00FDE189 /* MindfulCheckInApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MindfulCheckInApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E92515E2F2A520400E08D98 /* MindfulCheckInAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MindfulCheckInAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E9251812F2A787900E08D98 /* MindfulCheckInAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MindfulCheckInAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E97FA942F6D60FA000E6069 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		7E92518C2F2A787E00E08D98 /* Exceptions for "MindfulCheckInAppUITests" folder in "MindfulCheckInAppTests" target */ = {
+		7E97FB052F6D64A1000E6069 /* Exceptions for "Tests" folder in "MindfulCheckInApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				testHappyPathCheckIn.swift,
+				MindfulCheckInAppTests/CustomScoringTests.swift,
+				MindfulCheckInAppTests/makeScaleQuestion.swift,
+				MindfulCheckInAppTests/MindfulCheckInAppTests.swift,
+				MindfulCheckInAppTests/RecordingResponsesTest.swift,
+				MindfulCheckInAppTests/SessionGenerationTests.swift,
+				MindfulCheckInAppTests/SkippingTests.swift,
+				MindfulCheckInAppUITests/MindfulCheckInAppUITests.swift,
+				MindfulCheckInAppUITests/MindfulCheckInAppUITestsLaunchTests.swift,
+				MindfulCheckInAppUITests/testHappyPathCheckIn.swift,
+			);
+			target = 7E324D122E7F067A00FDE189 /* MindfulCheckInApp */;
+		};
+		7E97FB062F6D64A1000E6069 /* Exceptions for "Tests" folder in "MindfulCheckInAppTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				MindfulCheckInAppTests/CustomScoringTests.swift,
+				MindfulCheckInAppTests/makeScaleQuestion.swift,
+				MindfulCheckInAppTests/MindfulCheckInAppTests.swift,
+				MindfulCheckInAppTests/RecordingResponsesTest.swift,
+				MindfulCheckInAppTests/SessionGenerationTests.swift,
+				MindfulCheckInAppTests/SkippingTests.swift,
+				MindfulCheckInAppUITests/testHappyPathCheckIn.swift,
 			);
 			target = 7E92515D2F2A520400E08D98 /* MindfulCheckInAppTests */;
 		};
-		7E92518D2F2A787E00E08D98 /* Exceptions for "MindfulCheckInAppUITests" folder in "MindfulCheckInAppUITests" target */ = {
+		7E97FB072F6D64A1000E6069 /* Exceptions for "Tests" folder in "MindfulCheckInAppUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				testHappyPathCheckIn.swift,
+				MindfulCheckInAppUITests/MindfulCheckInAppUITests.swift,
+				MindfulCheckInAppUITests/MindfulCheckInAppUITestsLaunchTests.swift,
 			);
 			target = 7E9251802F2A787900E08D98 /* MindfulCheckInAppUITests */;
 		};
@@ -52,33 +79,24 @@
 			path = MindfulCheckInApp;
 			sourceTree = "<group>";
 		};
-		7E324D282E7F074900FDE189 /* Models */ = {
+		7E6C35462F6D60C8006DF27B /* Features */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Models;
+			path = Features;
 			sourceTree = "<group>";
 		};
-		7E324D2B2E7F074D00FDE189 /* Views */ = {
+		7E97FAD82F6D6149000E6069 /* App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Views;
+			path = App;
 			sourceTree = "<group>";
 		};
-		7E324D2E2E7F075300FDE189 /* Resources */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		7E92515F2F2A520400E08D98 /* MindfulCheckInAppTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = MindfulCheckInAppTests;
-			sourceTree = "<group>";
-		};
-		7E9251822F2A787900E08D98 /* MindfulCheckInAppUITests */ = {
+		7E97FAF02F6D649B000E6069 /* Tests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				7E92518C2F2A787E00E08D98 /* Exceptions for "MindfulCheckInAppUITests" folder in "MindfulCheckInAppTests" target */,
-				7E92518D2F2A787E00E08D98 /* Exceptions for "MindfulCheckInAppUITests" folder in "MindfulCheckInAppUITests" target */,
+				7E97FB052F6D64A1000E6069 /* Exceptions for "Tests" folder in "MindfulCheckInApp" target */,
+				7E97FB062F6D64A1000E6069 /* Exceptions for "Tests" folder in "MindfulCheckInAppTests" target */,
+				7E97FB072F6D64A1000E6069 /* Exceptions for "Tests" folder in "MindfulCheckInAppUITests" target */,
 			);
-			path = MindfulCheckInAppUITests;
+			path = Tests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -111,13 +129,12 @@
 		7E324D0A2E7F067A00FDE189 = {
 			isa = PBXGroup;
 			children = (
-				7E324D2E2E7F075300FDE189 /* Resources */,
-				7E324D2B2E7F074D00FDE189 /* Views */,
-				7E324D282E7F074900FDE189 /* Models */,
+				7E97FAF02F6D649B000E6069 /* Tests */,
+				7E97FAD82F6D6149000E6069 /* App */,
 				7E324D152E7F067A00FDE189 /* MindfulCheckInApp */,
-				7E92515F2F2A520400E08D98 /* MindfulCheckInAppTests */,
-				7E9251822F2A787900E08D98 /* MindfulCheckInAppUITests */,
 				7E324D142E7F067A00FDE189 /* Products */,
+				7E6C35462F6D60C8006DF27B /* Features */,
+				7E97FA942F6D60FA000E6069 /* .gitignore */,
 			);
 			sourceTree = "<group>";
 		};
@@ -148,9 +165,9 @@
 			);
 			fileSystemSynchronizedGroups = (
 				7E324D152E7F067A00FDE189 /* MindfulCheckInApp */,
-				7E324D282E7F074900FDE189 /* Models */,
-				7E324D2B2E7F074D00FDE189 /* Views */,
-				7E324D2E2E7F075300FDE189 /* Resources */,
+				7E6C35462F6D60C8006DF27B /* Features */,
+				7E97FAD82F6D6149000E6069 /* App */,
+				7E97FAF02F6D649B000E6069 /* Tests */,
 			);
 			name = MindfulCheckInApp;
 			packageProductDependencies = (
@@ -172,9 +189,6 @@
 			dependencies = (
 				7E9251632F2A520400E08D98 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				7E92515F2F2A520400E08D98 /* MindfulCheckInAppTests */,
-			);
 			name = MindfulCheckInAppTests;
 			packageProductDependencies = (
 			);
@@ -194,9 +208,6 @@
 			);
 			dependencies = (
 				7E9251882F2A787900E08D98 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				7E9251822F2A787900E08D98 /* MindfulCheckInAppUITests */,
 			);
 			name = MindfulCheckInAppUITests;
 			packageProductDependencies = (
@@ -254,6 +265,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7E97FA962F6D60FA000E6069 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -456,7 +468,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "Shane-Bunting.MindfulCheckInApp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -491,7 +503,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "Shane-Bunting.MindfulCheckInApp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;

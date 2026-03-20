@@ -40,68 +40,70 @@ struct ExportTextDocument: FileDocument { //Document type for exporting to a txt
 }
 
 //MAIN SETTINGS VIEW SCREEN SHOWN
-struct SettingsView: View {
-    @StateObject private var store = SurveyStore.shared
-    @State private var showDeleteAllAlert = false
-    @State private var showingExportError = false
-    @State private var isFileExporterPresented: Bool = false
-    @State private var exportDocument = ExportTextDocument()
+struct SettingsView: View { //main settings screen defined
+    @StateObject private var store = SurveyStore.shared //shared survey data store which is observable
+    @State private var showDeleteAllAlert = false //state variable for delete warning
+    @State private var showingExportError = false //state variable for showing export error
+    @State private var isFileExporterPresented: Bool = false //state variable for export option presented
+    @State private var exportDocument = ExportTextDocument() //state variable for holding the actual exported document
     
-    @AppStorage("hasSeenWelcome") private var hasSeenWelcome: Bool = false
-    @AppStorage("hasAcceptedDisclaimer") private var hasAcceptedDisclaimer: Bool = false
+    @AppStorage("hasSeenWelcome") private var hasSeenWelcome: Bool = false //stored in app memory for simple settings between runs, whether initial welcome has been seen or not (used for reset option below)
+    @AppStorage("hasAcceptedDisclaimer") private var hasAcceptedDisclaimer: Bool = false //same as above but for the initial disclaimer on app start
 
-    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.colorScheme) private var colorScheme //variable stored in the Envirornment determines colour scheme light or dark
 
-    private var appVersionText: String {
-        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
-        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "Unknown"
-        return "\(version) (\(build))"
+    //App Version String Generator - called lower down
+    private var appVersionText: String { //variable to hold String of app version
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown" //read the build ersion from the projects info, referencing that key, as a String but if unknown or issue, say unknown
+        let build = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "Unknown" //read build number from project info key but if issues, then say unknown
+        return "\(version) (\(build))" //return the version and build in a string
     }
 
-    private var feedbackURL: URL? {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        let date = formatter.string(from: Date())
-        let subject = "Mindful Check-in App Feedback - \(date)"
-        let email = "sabunting@icloud.com"
-        let encodedSubject = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? subject
-        let urlString = "mailto:\(email)?subject=\(encodedSubject)"
-        return URL(string: urlString)
+    //Email Me for Feedback Function
+    private var feedbackURL: URL? { //define function to hold a URL - in this case, email
+        let formatter = DateFormatter() //variable to format dates
+        formatter.dateFormat = "yyyy-MM-dd" //specify date using that formatter
+        let date = formatter.string(from: Date()) //store that date in a String, from: Date() calls todays date
+        let subject = "Mindful Check-in App Feedback - \(date)" //variable for email subject, using date made above
+        let email = "sabunting@icloud.com" //variable to hold my email address where feedback is sent
+        let encodedSubject = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? subject //this is what handles spaces into %20 in a URL ensuring conformance with only allowed characters / percentage used like that
+        let urlString = "mailto:\(email)?subject=\(encodedSubject)" // constructs the 'mailto' string including my email, places the subject in so the email open with that already in place
+        return URL(string: urlString) //return the overall url string
     }
 
-    private let appReviewURL = URL(string: "https://apps.apple.com/gb/app/mindful-check-in/id6758107607?action=write-review")!
+    private let appReviewURL = URL(string: "https://apps.apple.com/gb/app/mindful-check-in/id6758107607?action=write-review")! //url to App Store, exclamation mark asserts that this is a valid URL since its hard coded and known to be good, it is asserted
 
-    var body: some View {
-        AppShell {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("Settings")
-                        .font(.system(size: 40, weight: .bold))
-                    Text("Manage your Check-in experience")
-                        .font(.title3)
+    var body: some View { //main View UI drawn on screen
+        AppShell { //wrapped in the background AppShell like other views
+            ScrollView { //main scrollable list that makes up Settings UI
+                VStack(alignment: .leading, spacing: 16) { //vertical stack, everything within follows top to bottom
+                    Text("Settings") //title
+                        .font(.system(size: 40, weight: .bold)) //styling modifiers
+                    Text("Manage your Check-in experience") //sub-title
+                        .font(.title3) //styling modifiers
                         .foregroundStyle(.primary)
 
-                    Divider()
+                    Divider() //spacing under top section
                     
-                    // Export Data
-                    Button(action: { exportData() }) {
-                        HStack(spacing: 12) {
-                            ZStack {
-                                Circle()
+                    // BUTTON Export Data Button Row
+                    Button(action: { exportData() }) { //calls function exportData when pressed
+                        HStack(spacing: 12) { //horizontal stack, everything within follows left to right
+                            ZStack { //zstack, everything within sits on top of the previous item
+                                Circle() //circle background, with modifiers for style:
                                     .fill(.ultraThinMaterial)
                                     .frame(width: 44, height: 44)
                                     .overlay(
                                         Circle().stroke(Color.white.opacity(0.25), lineWidth: 1)
                                     )
-                                Image(systemName: "square.and.arrow.up").font(.title3)
-                            }
-                            VStack(alignment: .leading, spacing: 2) {
+                                Image(systemName: "square.and.arrow.up").font(.title3) //icon itself
+                            } //end of logo zstack
+                            VStack(alignment: .leading, spacing: 2) { //new VStack for butons title / description text inside
                                 Text("Export Data").font(.title2).bold()
                                 Text("Save past check-ins to a text file").font(.subheadline).foregroundStyle(.secondary)
-                            }
-                            Spacer()
-                            Image(systemName: "chevron.right").foregroundColor(.gray)
-                        }
+                            } //end of internal text vstack, but still inside hstack:
+                            Spacer() //space but horizontally since inside hstack still
+                            Image(systemName: "chevron.right").foregroundColor(.gray) //icon for right arrow on right side
+                        } //end of hstack inside button, styling modifiers below:
                         .padding()
                         .background(
                             RoundedRectangle(cornerRadius: 12, style: .continuous)
@@ -111,12 +113,12 @@ struct SettingsView: View {
                             RoundedRectangle(cornerRadius: 12, style: .continuous)
                                 .stroke(Color.white.opacity(0.25), lineWidth: 1)
                         )
-                    }
-                    .buttonStyle(.plain)
+                    } //end of button, styling modifier below:
+                    .buttonStyle(.plain) //removes a lot of built in styling from a default button
 
-                    // Delete all data
-                    Button(role: .destructive) { showDeleteAllAlert = true } label: {
-                        HStack(spacing: 12) {
+                    // BUTTON - Delete all data
+                    Button(role: .destructive) { showDeleteAllAlert = true } label: { //when tapped, presents warning by calling and changing the State variable above, which is used to change UI. Destructive means red alert for something semantically bad or risky to happen if tapped
+                        HStack(spacing: 12) { //as above, defining the icon and text / spacing
                             ZStack {
                                 Circle()
                                     .fill(.ultraThinMaterial)
@@ -126,7 +128,7 @@ struct SettingsView: View {
                                     )
                                 Image(systemName: "trash").font(.title3)
                             }
-                            VStack(alignment: .leading, spacing: 2) {
+                            VStack(alignment: .leading, spacing: 2) { //as above
                                 Text("Delete All Data").font(.title2).bold()
                                 Text("Removes all past survey information").font(.subheadline).foregroundStyle(.secondary)
                             }
@@ -143,10 +145,10 @@ struct SettingsView: View {
                                 .stroke(Color.white.opacity(0.25), lineWidth: 1)
                         )
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(.plain) //as above
 
-                    // License Info
-                    NavigationLink(destination: LicenseInfoView()) {
+                    // BUTTON - License Info, all as above
+                    NavigationLink(destination: LicenseInfoView()) { //instead of calling a function, it used the NavigationStack to call LicenseInfoView which is defined within this class file since it's only an overlay
                         HStack(spacing: 12) {
                             ZStack {
                                 Circle()
@@ -176,8 +178,8 @@ struct SettingsView: View {
                     }
                     .buttonStyle(.plain)
 
-                    // App Version (static)
-                    HStack(spacing: 12) {
+                    // BUTTON - App Version
+                    HStack(spacing: 12) { //as above buttons... but no function just shows info in text
                         ZStack {
                             Circle()
                                 .fill(.ultraThinMaterial)
@@ -189,7 +191,7 @@ struct SettingsView: View {
                         }
                         VStack(alignment: .leading, spacing: 2) {
                             Text("App Version").font(.title2).bold()
-                            Text(appVersionText).font(.subheadline).foregroundStyle(.secondary)
+                            Text(appVersionText).font(.subheadline).foregroundStyle(.secondary) //calls the variable defined at the top of the class that reads the apps current version from the project bundle key property
                         }
                         Spacer()
                     }
@@ -203,9 +205,9 @@ struct SettingsView: View {
                             .stroke(Color.white.opacity(0.25), lineWidth: 1)
                     )
 
-                    // Review on the App Store
-                    Button(action: { UIApplication.shared.open(appReviewURL) }) {
-                        HStack(spacing: 12) {
+                    // BUTTON - Review on the App Store
+                    Button(action: { UIApplication.shared.open(appReviewURL) }) { //when tapped, goes to the appReviewURL defined above
+                        HStack(spacing: 12) { //title defined as above buttons are...
                             ZStack {
                                 Circle()
                                     .fill(.ultraThinMaterial)
@@ -269,9 +271,9 @@ struct SettingsView: View {
 //                    }
 //                    .buttonStyle(.plain)
 
-                    // Send Feedback
-                    Button(action: { if let url = feedbackURL { UIApplication.shared.open(url) } }) {
-                        HStack(spacing: 12) {
+                    // BUTTON - Send Feedback
+                    Button(action: { if let url = feedbackURL { UIApplication.shared.open(url) } }) { //opens the URL defined above where the email address and mailto String is defined and returned
+                        HStack(spacing: 12) { //rest of this button is defined as the rest are
                             ZStack {
                                 Circle()
                                     .fill(.ultraThinMaterial)
@@ -300,12 +302,12 @@ struct SettingsView: View {
                     }
                     .buttonStyle(.plain)
 
-                    // Reset Welcome
-                    Button(role: .destructive) {
-                        hasSeenWelcome = false
-                        hasAcceptedDisclaimer = false
+                    // BUTTON - Reset Welcome
+                    Button(role: .destructive) { //when pressed, performs a des
+                        hasSeenWelcome = false //sets these so that on next app run they show again
+                        hasAcceptedDisclaimer = false //sets these so that on next app run they show again
                     } label: {
-                        HStack(spacing: 12) {
+                        HStack(spacing: 12) { //title and description as on other buttons
                             ZStack {
                                 Circle()
                                     .fill(.ultraThinMaterial)
@@ -350,75 +352,82 @@ struct SettingsView: View {
                 .blendMode(colorScheme == .light ? .overlay : .plusLighter)
                 .ignoresSafeArea()
             )
-        }
-        .alert("Delete All Data?", isPresented: $showDeleteAllAlert) {
-            Button("Cancel", role: .cancel) {}
-            Button("Delete", role: .destructive) {
-                store.removeAll()
+        } //END OF AppShell WRAPPER
+        
+        //These state modifiers control the alert dialogs and what each buttons do, which are all presented based off of pressing of the buttons defined above:
+        .alert("Delete All Data?", isPresented: $showDeleteAllAlert) { //triggers the alert to show the warning before deleting
+            Button("Cancel", role: .cancel) {} //do nothing, button defined
+            Button("Delete", role: .destructive) { //perform action, button defined
+                store.removeAll() //function call which removes all stored data within app (from SurveyStore Class)
             }
         }
-        .alert("Export Failed", isPresented: $showingExportError) {
-            Button("OK", role: .cancel) {}
+        .alert("Export Failed", isPresented: $showingExportError) { //triggers error if needed
+            Button("OK", role: .cancel) {} //defines buttons
         } message: {
-            Text("We couldn't export your data. Please try again.")
+            Text("We couldn't export your data. Please try again.") //defines message
         }
-        .fileExporter(
-            isPresented: $isFileExporterPresented,
-            document: exportDocument,
-            contentType: .plainText,
-            defaultFilename: defaultExportFilename
+        .fileExporter( //when fileExporter is called...
+            isPresented: $isFileExporterPresented, //change this property, shows modal selection of where to save file to user when true
+            document: exportDocument, //store the exported document HERE
+            contentType: .plainText, //defines type of file output
+            defaultFilename: defaultExportFilename //
         ) { result in
-            if case .failure(_) = result { showingExportError = true }
+            if case .failure(_) = result { showingExportError = true } //set error flag if issues encountered
         }
-    }
+    } //end of main Settings UI body view
+
+
+    //PRIVATE TO THIS CLASS FUNCTION METHODS TO SUPPORT ACTIONS BUTTONS PERFORM ABOVE:
 
     private func exportData() {
-        let text = buildExportText()
-        exportDocument = ExportTextDocument(text: text)
-        isFileExporterPresented = true
+        let text = buildExportText() //variable to hold exported text
+        exportDocument = ExportTextDocument(text: text) //to hold exported document as a text document
+        isFileExporterPresented = true //variable set when exporter is presented, the modal sheet pop up to choose where to save a file
     }
 
-    private var defaultExportFilename: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd_HH-mm"
-        return "MindfulCheckinExport_\(formatter.string(from: Date())).txt"
+    private var defaultExportFilename: String { //defines filename of file exported
+        let formatter = DateFormatter() //variable to hold date formatter data
+        formatter.dateFormat = "yyyy-MM-dd_HH-mm" //defines format in formatter
+        return "MindfulCheckinExport_\(formatter.string(from: Date())).txt" //returns default text but slips in the current date in the format we told it to
     }
 
-    private func buildExportText() -> String {
-        var lines: [String] = []
-        lines.append("Mindful Check-in Export")
-        lines.append(Date().formatted(date: .abbreviated, time: .standard))
-        lines.append("Total records: \(store.records.count)")
-        lines.append("")
-        let df = DateFormatter()
-        df.dateStyle = .medium
-        df.timeStyle = .short
-        for record in store.records {
-            lines.append("=== Record ===")
-            lines.append("Date: \(df.string(from: record.date))")
-            lines.append("Summary: Good \(record.summary.good) • Neutral \(record.summary.neutral) • Needs Attention \(record.summary.bad)")
-            let note = record.reflection.trimmingCharacters(in: .whitespacesAndNewlines)
-            lines.append("Reflection: \(note.isEmpty ? "-" : note)")
-            if !record.positiveTopics.isEmpty {
-                lines.append("Doing well on: " + record.positiveTopics.map { $0.displayName }.joined(separator: ", "))
+        private func buildExportText() -> String { //main function that returns exported data when called
+        var lines: [String] = [] //accumulates strings in an Array
+        lines.append("Mindful Check-in Export") //appends to that array with title
+        lines.append(Date().formatted(date: .abbreviated, time: .standard)) //appends the formatted date and time of export to that array
+        lines.append("Total records: \(store.records.count)") //counts the number of records in store (survey count)
+        lines.append("") //appends a new blank line
+        let df = DateFormatter() //initialise a DateFormatter variable to store date in
+        df.dateStyle = .medium //define date style
+        df.timeStyle = .short //define time style
+        for record in store.records { //FOR LOOP - each iteration is for one survey, repeats per survey in store...
+            lines.append("=== Record ===") //title
+            lines.append("Date: \(df.string(from: record.date))") //date
+            lines.append("Summary: Good \(record.summary.good) • Neutral \(record.summary.neutral) • Needs Attention \(record.summary.bad)") //summary, with a count of 'good bad neutral' topics for that survey
+            let note = record.reflection.trimmingCharacters(in: .whitespacesAndNewlines) // stores reflection note data
+            lines.append("Reflection: \(note.isEmpty ? "-" : note)") //handles empty string which is allowed
+            if !record.positiveTopics.isEmpty { //ONLY IF NOT EMPTY ...
+                lines.append("Doing well on: " + record.positiveTopics.map { $0.displayName }.joined(separator: ", ")) //list the topic, separate with comma, on to next...
             }
-            if !record.neutralTopics.isEmpty {
-                lines.append("Okay on: " + record.neutralTopics.map { $0.displayName }.joined(separator: ", "))
+            if !record.neutralTopics.isEmpty { //ONLY IF NOT EMPTY...
+                lines.append("Okay on: " + record.neutralTopics.map { $0.displayName }.joined(separator: ", ")) //list the topic, separate with comma, on to next...
             }
-            if !record.flaggedTopics.isEmpty {
-                lines.append("Mindful of: " + record.flaggedTopics.map { $0.displayName }.joined(separator: ", "))
+            if !record.flaggedTopics.isEmpty { //ONLY IF NOT EMPTY...
+                lines.append("Mindful of: " + record.flaggedTopics.map { $0.displayName }.joined(separator: ", ")) //list the topic, separate with comma, on to next...
             }
-            lines.append("")
-        }
-        return lines.joined(separator: "\n")
+            lines.append("") //blank line at end...
+        } //end of FOR LOOP per survey record.
+            
+        return lines.joined(separator: "\n") //returns the final text
     }
-}
+    
+} //end of SettingsView main struct
 
-// MARK: - Placeholder subviews (replace with your real implementations as needed)
+// MARK: - SUBVIEWS USED IN SETTINGS
 
-struct LicenseInfoView: View {
-    var body: some View {
-        ScrollView {
+struct LicenseInfoView: View { //view presented when LicenseInfoView is called, in modal form
+    var body: some View { //what's shown on screen
+        ScrollView { //scrollable view, with static text defined in a VStack below top to bottom:
             VStack(alignment: .leading, spacing: 16) {
                 Text("License")
                     .font(.title).bold()
@@ -465,9 +474,9 @@ struct LicenseInfoView: View {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
-        }
-    }
-}
+        } //end of scrollview for license
+    } //end of body for LicenseInfoView
+} //end of LicenseInfoView
 
 #Preview {
     SettingsView()

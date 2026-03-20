@@ -70,6 +70,8 @@ struct DisclaimerView: View { //declaring the SwiftUI View, conforms to the View
                 .padding(.bottom)
             } //end of VStack with title/text/button
             .padding()
+            
+            
         } //end of ZStack
         .navigationBarBackButtonHidden(true)
     } //end of body
