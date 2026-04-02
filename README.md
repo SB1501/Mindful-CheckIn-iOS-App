@@ -3,3 +3,6 @@ An iOS app designed to facilitate regular self-surveys where users can check in 
 
 ## License Info
   This project is licensed under the MIT License — see the [LICENSE](./LICENSE) file for details.
+
+### Learn more
+www.shanebunting.dev/projects/
