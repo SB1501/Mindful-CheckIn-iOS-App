@@ -19,7 +19,7 @@ Survey View
 
 To run on device, you will need to configure your Xcode environment with an Apple Account and team. Refer to Apple's guidance ([here](https://developer.apple.com/documentation/xcode/running-your-app-in-simulator-or-on-a-device)).
 
-### [Download from the Apple App Store](https://apps.apple.com/gb/app/mindful-check-in/id6758107607))
+### [Download from the Apple App Store](https://apps.apple.com/gb/app/mindful-check-in/id6758107607)
 
 ## License Info
   This project is licensed under the MIT License — see the [LICENSE](./LICENSE) file for details.
