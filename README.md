@@ -6,10 +6,11 @@ Apple Swift, SwiftUI
 
 ### Screenshots
 Main Menu
-<img width="1284" height="2778" alt="mindful_checkin_2" src="https://github.com/user-attachments/assets/a2884a12-ac3a-4203-a660-acbd324d19ec" />
+<img width="1284" height="2778" alt="mindful_checkin_1" src="https://github.com/user-attachments/assets/d8845b6c-7f13-4133-ba69-3406551e3627" />
 
 Survey View
-<img width="1284" height="2778" alt="mindful_checkin_1" src="https://github.com/user-attachments/assets/d8845b6c-7f13-4133-ba69-3406551e3627" />
+<img width="1284" height="2778" alt="mindful_checkin_2" src="https://github.com/user-attachments/assets/a2884a12-ac3a-4203-a660-acbd324d19ec" />
+
 
 ### Running Locally (via Simulator)
 1. Install Xcode 
