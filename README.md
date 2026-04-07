@@ -17,7 +17,7 @@ Survey View
 2. Download iOS Simulator(s) / SDK
 4. Hit run
 
-To run on device, you will need to configure your Xcode environment with an Apple Account and team. Refer to Apple's guidance [here]([url](https://developer.apple.com/documentation/xcode/running-your-app-in-simulator-or-on-a-device)).
+To run on device, you will need to configure your Xcode environment with an Apple Account and team. Refer to Apple's guidance ([here](https://developer.apple.com/documentation/xcode/running-your-app-in-simulator-or-on-a-device)).
 
 [### Download from the Apple App Store
 ]([url](https://apps.apple.com/gb/app/mindful-check-in/id6758107607))
