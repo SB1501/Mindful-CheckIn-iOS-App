@@ -62,7 +62,7 @@ struct PastRecordsView: View { //new View describing the UI in this class / scre
                     }  //end of section
                 } else { //IF ELSE clause starts here, for when there IS PastRecords in scope
                     
-                    ForEach(store.records) { record in //loop through each SurveyRecord (store defined above, as a @StateObject, then reaches in to its .records property..
+                    ForEach(store.records.sorted(by: { $0.date > $1.date})) { record in //loop through each SurveyRecord (store defined above, as a @StateObject, then reaches in to its .records property..
                         
                         Button { //create a tappable button to open detail, with properties:
                             selectedRecord = record //set selectedRecord to Record

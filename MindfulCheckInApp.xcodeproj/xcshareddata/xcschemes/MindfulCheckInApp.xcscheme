@@ -42,13 +42,24 @@
             </BuildableReference>
          </TestableReference>
          <TestableReference
-            skipped = "NO"
+            skipped = "YES"
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7E9251802F2A787900E08D98"
                BuildableName = "MindfulCheckInAppUITests.xctest"
                BlueprintName = "MindfulCheckInAppUITests"
+               ReferencedContainer = "container:MindfulCheckInApp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7EEA6A672FD9D6AA00D5EB73"
+               BuildableName = "MindfulCheckInTests.xctest"
+               BlueprintName = "MindfulCheckInTests"
                ReferencedContainer = "container:MindfulCheckInApp.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -74,6 +85,16 @@
             ReferencedContainer = "container:MindfulCheckInApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "-RESET_DATA"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-SEED_DUMMY_DATA"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

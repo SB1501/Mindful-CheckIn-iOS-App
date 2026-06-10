@@ -35,6 +35,18 @@ class SurveyManager: ObservableObject { //CLASS DEFINITION
         self.session = SurveySession(id: UUID(), date: Date(), responses: []) //fresh ID and metadata
     }
 
+    // FOR TESTING PERSISTENCE: overload for tests
+    //OVERLOAD of loadQuestions:
+    func loadQuestions(dataProvider: () throws -> Data) throws {
+        let data = try dataProvider()
+        let decoded = try JSONDecoder().decode([SurveyQuestion].self, from: data)
+        self.questions = decoded
+
+        // reset state
+        self.responses = []
+        self.currentIndex = 0
+        self.session = SurveySession(id: UUID(), date: Date(), responses: [])
+    }
     
     func recordResponse(for question: SurveyQuestion, answer: AnswerValue) { //RECORDS OR REPLACES A RESPONSE FOR A QUESTION ANSWERED
 
