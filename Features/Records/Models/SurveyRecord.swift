@@ -30,9 +30,14 @@ final class SurveyStore: ObservableObject {
         didSet { save() }
     }
 
-    private let storageKey = "surveyRecordsJSON"
+    // FOR TESTING PERSISTENCE: injected dependencies (with defaults)
+    private let userDefaults: UserDefaults
+    private let storageKey: String
 
-    init() {
+    // FOR TESTING PERSISTENCE: convenience init keeps old behaviour for the app
+    init(userDefaults: UserDefaults = .standard, storageKey: String = "surveyRecordsJSON") {
+        self.userDefaults = userDefaults
+        self.storageKey = storageKey
         load()
     }
 
@@ -49,23 +54,27 @@ final class SurveyStore: ObservableObject {
     }
 
     private func load() {
-        guard let data = UserDefaults.standard.data(forKey: storageKey) else { return }
+        guard let data = userDefaults.data(forKey: storageKey) else { return } // use injected
         do {
             let decoded = try JSONDecoder().decode([SurveyRecord].self, from: data)
             self.records = decoded
         } catch {
-            // If decoding fails, start fresh.
+            //if decoding fails, start fresh:
             self.records = []
         }
     }
+    
+    
 
     private func save() {
         do {
             let data = try JSONEncoder().encode(records)
-            UserDefaults.standard.set(data, forKey: storageKey)
+            userDefaults.set(data, forKey: storageKey) // use injected
         } catch {
             // Ignore save errors in this lightweight store
         }
     }
+
+    
 }
 

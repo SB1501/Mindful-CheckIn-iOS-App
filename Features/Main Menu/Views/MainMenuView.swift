@@ -55,26 +55,18 @@ struct MainMenuView: View {
                     VStack(spacing: 16) { //inner VSTACK for the Main Menu Buttons. Each item below is vertically ordered to follow each other. It is a custom UI element defined in a method at the bottom of this class...
                         
                         MenuGlassButton(systemIconName:  "checklist", title: "Check In") {
-                            //AppShell {
-                                SurveyFlowView() //Start Check-In
-                            //}
+                            SurveyFlowView() //Start Check-In
                         }
                         //each of these calls the function, passes in an icon, title to show, then the destination view - different for each....
                         
                         MenuGlassButton(systemIconName: "books.vertical.fill", title: "Resources") {
-                            AppShell {
-                                ResourceHomeView() //View Resource List
-                            }
+                            ResourceHomeView() //View Resource List
                         }
                         MenuGlassButton(systemIconName: "clock.arrow.circlepath", title: "Past Records") {
-                            AppShell {
-                                PastRecordsView() //View Past Records
-                            }
+                            PastRecordsView() //View Past Records
                         }
                         MenuGlassButton(systemIconName: "gearshape.fill", title: "Settings") {
-                            AppShell {
-                                SettingsView() //Enter Settings
-                            }
+                            SettingsView() //Enter Settings
                         }
                     }
                     .padding(.horizontal)
@@ -170,9 +162,8 @@ private struct MenuGlassButton<Destination: View>: View { //Definition for custo
 }
 
 
-#Preview("MainMenuView") {
-    NavigationStack {
-        MainMenuView()
-    }
-}
 
+#Preview("MainMenuView – Dark") {
+      MainMenuView()
+          .preferredColorScheme(.dark)
+  }
